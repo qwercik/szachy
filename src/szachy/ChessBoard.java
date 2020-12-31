@@ -3,6 +3,8 @@ package szachy;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+import java.util.LinkedList;
+
 public class ChessBoard extends GridPane {
     private static final int SIZE = 8;
 
@@ -11,10 +13,25 @@ public class ChessBoard extends GridPane {
     ChessBoard() {
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
-                this.fields[y][x] = new Field((x + y) % 2 == 0 ? Field.Type.WHITE : Field.Type.BLACK);
+                Field.Type fieldType = (x + y) % 2 == 0 ? Field.Type.WHITE : Field.Type.BLACK;
+                Field field = new Field(fieldType, new Position(y, x), this);
+                field.setOnAction(event -> {
+                    if (field.getPiece() != null) {
+                        LinkedList<Move> validMoves = field.getPiece().getAllPossibleMoves();
+                        for (Move move : validMoves) {
+                            Position position = move.getEnd();
+                            Field other = this.getField(position);
+                            other.toggleHighlight();
+                        }
+                    }
+                });
+
+                this.fields[y][x] = field;
                 this.add(this.fields[y][x], x, y);
             }
         }
+
+
     }
 
     public Field getField(Position position) {

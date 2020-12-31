@@ -2,13 +2,24 @@ package szachy;
 
 import javafx.scene.image.Image;
 
+import java.util.LinkedList;
+
 public abstract class ChessPiece {
+    protected Player owner;
+    protected Field field;
+
+
     public ChessPiece(Player owner) {
         this.owner = owner;
     }
 
-    public abstract Image getIcon();
+    public void setField(Field field) {
+        this.field = field;
+    }
 
+    public Field getField() {
+        return this.field;
+    }
 
     protected String getIconsDirectory() {
         String basePath = "/assets/pieces";
@@ -27,5 +38,10 @@ public abstract class ChessPiece {
         );
     }
 
-    protected Player owner;
+    public boolean isMovePossible(Move move) {
+        return this.getAllPossibleMoves().contains(move);
+    }
+
+    public abstract Image getIcon();
+    public abstract LinkedList<Move> getAllPossibleMoves();
 }

@@ -6,15 +6,15 @@ public class Player {
         BLACK
     }
 
-    Player(Type type) {
+    public Player(Type type) {
         this.type = type;
     }
 
-    Type getType() {
+    public Type getType() {
         return this.type;
     }
 
-    boolean compareTo(Player player) {
+    public boolean compareTo(Player player) {
         return this.type == player.type;
     }
 

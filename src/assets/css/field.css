@@ -1,5 +1,5 @@
 .field {
-    -fx-border-radius: 0 !important;
+    -fx-background-radius: 0 !important;
 }
 
 .field--white {
@@ -16,4 +16,8 @@
 
 .field--black:hover {
     -fx-background-color: #704026;
+}
+
+.field--highlight {
+    -fx-background-color: #55b918;
 }

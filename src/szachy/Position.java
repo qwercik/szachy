@@ -1,7 +1,7 @@
 package szachy;
 
 public class Position {
-    Position(int row, int column) {
+    public Position(int row, int column) {
         this.setRow(row);
         this.setColumn(column);
     }
