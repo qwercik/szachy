@@ -1,5 +1,9 @@
 package szachy;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -29,6 +33,28 @@ public class ChessBoard extends GridPane {
                 this.fields[y][x] = field;
                 this.add(this.fields[y][x], x, y);
             }
+        }
+
+        for (int y = 0; y < SIZE; y++) {
+            Label label = new Label(String.format("%d", SIZE - y));
+            label.setPadding(new Insets(0, 5, 0, 5));
+            label.setMaxWidth(20);
+            label.setMaxHeight(75);
+            AnchorPane.setTopAnchor(label, 0.0);
+            AnchorPane.setBottomAnchor(label, 0.0);
+            label.setAlignment(Pos.CENTER);
+            this.add(label, SIZE, y);
+        }
+
+        for (int x = 0; x < SIZE; x++) {
+            Label label = new Label(String.format("%c", 'A' + x));
+            label.setPadding(new Insets(5, 0, 5, 0));
+            label.setMaxWidth(75);
+            label.setMaxHeight(20);
+            AnchorPane.setLeftAnchor(label, 0.0);
+            AnchorPane.setRightAnchor(label, 0.0);
+            label.setAlignment(Pos.CENTER);
+            this.add(label, x, SIZE);
         }
 
 

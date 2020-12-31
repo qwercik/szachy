@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,8 +15,8 @@ import szachy.pieces.*;
 import java.util.Random;
 
 public class Main extends Application {
-    private static final int WINDOW_WIDTH = 600;
-    private static final int WINDOW_HEIGHT = 600;
+    private static final int WINDOW_WIDTH = 800;
+    private static final int WINDOW_HEIGHT = 620;
 
     @Override
     public void start(Stage stage) {
@@ -26,8 +27,11 @@ public class Main extends Application {
         stage.getIcons().add(new Image("/assets/icon.svg"));
 
         GameState state = new GameState();
+        ControlPanel panel = new ControlPanel();
+        HBox root = new HBox();
+        root.getChildren().addAll(state.getChessBoard(), panel);
 
-        Scene scene = new Scene(new StackPane(state.getChessBoard()), WINDOW_WIDTH, WINDOW_HEIGHT);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
 
         stage.show();
