@@ -22,7 +22,9 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.getIcons().add(new Image("/assets/icon.svg"));
 
-        Scene scene = new Scene(new StackPane(), WINDOW_WIDTH, WINDOW_HEIGHT);
+        Field field = new Field();
+
+        Scene scene = new Scene(new StackPane(field), WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
 
         stage.show();
