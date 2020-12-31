@@ -14,8 +14,8 @@ import szachy.pieces.*;
 import java.util.Random;
 
 public class Main extends Application {
-    private static final int WINDOW_WIDTH = 400;
-    private static final int WINDOW_HEIGHT = 400;
+    private static final int WINDOW_WIDTH = 600;
+    private static final int WINDOW_HEIGHT = 600;
 
     @Override
     public void start(Stage stage) {
