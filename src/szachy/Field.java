@@ -13,11 +13,6 @@ public class Field extends Button {
         BLACK
     }
 
-    private static final String WHITE_STYLE = "-fx-background-color: #dbcbc3";
-    private static final String WHITE_HOVER_STYLE = "-fx-background-color: #ecdcd4";
-    private static final String BLACK_STYLE = "-fx-background-color: #5f2f15";
-    private static final String BLACK_HOVER_STYLE = "-fx-background-color: #704026";
-
     private static final int SIZE = 75;
     private ChessPiece piece;
     private Type type;
@@ -25,26 +20,13 @@ public class Field extends Button {
     Field(Type type) {
         this.type = type;
 
-        this.setStyle(type == Type.WHITE ? WHITE_STYLE : BLACK_STYLE);
+        this.getStylesheets().add("/assets/css/field.css");
+        this.getStyleClass().add("field");
+        this.getStyleClass().add(type == Type.WHITE ? "field--white" : "field--black");
+
         this.setPrefSize(SIZE, SIZE);
         this.setPadding(Insets.EMPTY);
         this.setBorder(Border.EMPTY);
-
-        this.setOnMouseEntered(event -> {
-            if (this.type == Type.WHITE) {
-                this.setStyle(WHITE_HOVER_STYLE);
-            } else {
-                this.setStyle(BLACK_HOVER_STYLE);
-            }
-        });
-
-        this.setOnMouseExited(event -> {
-            if (this.type == Type.WHITE) {
-                this.setStyle(WHITE_STYLE);
-            } else {
-                this.setStyle(BLACK_STYLE);
-            }
-        });
     }
 
     void setPiece(ChessPiece piece) {

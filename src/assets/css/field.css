@@ -1,0 +1,19 @@
+.field {
+    -fx-border-radius: 0 !important;
+}
+
+.field--white {
+    -fx-background-color: #dbcbc3;
+}
+
+.field--white:hover {
+    -fx-background-color: #ecdcd4;
+}
+
+.field--black {
+    -fx-background-color: #5f2f15;
+}
+
+.field--black:hover {
+    -fx-background-color: #704026;
+}
