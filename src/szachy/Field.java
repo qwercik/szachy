@@ -1,2 +1,5 @@
-package szachy;public class Field {
+package szachy;
+
+public class Field {
+
 }

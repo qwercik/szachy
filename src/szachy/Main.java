@@ -1,9 +1,13 @@
 package szachy;
 
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -12,24 +16,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        SvgImageLoaderFactory.install();
+
         stage.setTitle("Szachy");
+        stage.setResizable(false);
+        stage.getIcons().add(new Image("/assets/icon.svg"));
 
-        StackPane root = new StackPane();
-        Button btn = new Button("Test");
-
-        ButtonType retry = new ButtonType("Test1", ButtonBar.ButtonData.OK_DONE);
-        ButtonType end = new ButtonType("Test2", ButtonBar.ButtonData.CANCEL_CLOSE);
-        Alert alert = new Alert(
-                Alert.AlertType.INFORMATION,
-                "Test!",
-                retry, end
-        );
-
-
-        btn.setOnAction(e -> alert.showAndWait());
-        root.getChildren().add(btn);
-
-        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        Scene scene = new Scene(new StackPane(), WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
 
         stage.show();
