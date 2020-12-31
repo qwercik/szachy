@@ -9,6 +9,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import szachy.pieces.*;
+
+import java.util.Random;
 
 public class Main extends Application {
     private static final int WINDOW_WIDTH = 400;
@@ -22,7 +25,17 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.getIcons().add(new Image("/assets/icon.svg"));
 
+        ChessPiece pieces[] = {
+                new Pawn(),
+                new Rook(),
+                new Queen(),
+                new King(),
+                new Bishop(),
+                new Knight()
+        };
+
         Field field = new Field();
+        field.setOnAction(event -> field.setPiece(pieces[new Random().nextInt(pieces.length)]));
 
         Scene scene = new Scene(new StackPane(field), WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);

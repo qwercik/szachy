@@ -6,13 +6,23 @@ import javafx.scene.image.ImageView;
 
 public class Field extends Button {
     private static final int SIZE = 50;
+    private ChessPiece piece;
 
     Field() {
-        ImageView image = new ImageView(new Image("/assets/pieces/white/pawn.svg"));
+        this.setPrefSize(SIZE, SIZE);
+    }
+
+    void setPiece(ChessPiece piece) {
+        this.piece = piece;
+
+        ImageView image = new ImageView(this.piece.getIcon());
         image.setFitHeight(SIZE);
         image.setFitWidth(SIZE);
 
-        this.setPrefSize(SIZE, SIZE);
         this.setGraphic(image);
+    }
+
+    ChessPiece getPiece() {
+        return this.piece;
     }
 }
