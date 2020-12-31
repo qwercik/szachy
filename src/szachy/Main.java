@@ -25,19 +25,9 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.getIcons().add(new Image("/assets/icon.svg"));
 
-        ChessPiece pieces[] = {
-                new Pawn(),
-                new Rook(),
-                new Queen(),
-                new King(),
-                new Bishop(),
-                new Knight()
-        };
+        ChessBoard chessBoard = new ChessBoard();
 
-        Field field = new Field();
-        field.setOnAction(event -> field.setPiece(pieces[new Random().nextInt(pieces.length)]));
-
-        Scene scene = new Scene(new StackPane(field), WINDOW_WIDTH, WINDOW_HEIGHT);
+        Scene scene = new Scene(new StackPane(chessBoard), WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
 
         stage.show();

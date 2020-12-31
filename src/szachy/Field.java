@@ -1,5 +1,6 @@
 package szachy;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,6 +11,7 @@ public class Field extends Button {
 
     Field() {
         this.setPrefSize(SIZE, SIZE);
+        this.setPadding(Insets.EMPTY);
     }
 
     void setPiece(ChessPiece piece) {
