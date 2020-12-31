@@ -2,10 +2,15 @@ package szachy.pieces;
 
 import javafx.scene.image.Image;
 import szachy.ChessPiece;
+import szachy.Player;
 
 public class Knight extends ChessPiece {
+    public Knight(Player player) {
+        super(player);
+    }
+
     @Override
     public Image getIcon() {
-        return new Image("/assets/pieces/white/knight.svg");
+        return new Image(this.obtainIconPath("knight"));
     }
 }

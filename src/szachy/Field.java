@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 
 public class Field extends Button {
     private static final int SIZE = 50;
@@ -12,6 +13,8 @@ public class Field extends Button {
     Field() {
         this.setPrefSize(SIZE, SIZE);
         this.setPadding(Insets.EMPTY);
+        this.setBorder(Border.EMPTY);
+        this.setStyle("-fx-background-radius: 0");
     }
 
     void setPiece(ChessPiece piece) {

@@ -25,9 +25,9 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.getIcons().add(new Image("/assets/icon.svg"));
 
-        ChessBoard chessBoard = new ChessBoard();
+        GameState state = new GameState();
 
-        Scene scene = new Scene(new StackPane(chessBoard), WINDOW_WIDTH, WINDOW_HEIGHT);
+        Scene scene = new Scene(new StackPane(state.getChessBoard()), WINDOW_WIDTH, WINDOW_HEIGHT);
         stage.setScene(scene);
 
         stage.show();
