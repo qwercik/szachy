@@ -22,12 +22,7 @@ public abstract class ChessPiece {
     }
 
     protected String getIconsDirectory() {
-        String basePath = "/assets/pieces";
-        if (this.owner.getType() == Player.Type.WHITE) {
-            return String.format("%s/white", basePath);
-        } else {
-            return String.format("%s/black", basePath);
-        }
+        return String.format("%s/%s", "/assets/pieces", this.owner == Player.WHITE ? "white" : "black");
     }
 
     protected String obtainIconPath(String filename) {

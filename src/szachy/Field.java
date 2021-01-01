@@ -35,6 +35,17 @@ public class Field extends Button {
         this.setPrefSize(SIZE, SIZE);
         this.setPadding(Insets.EMPTY);
         this.setBorder(Border.EMPTY);
+
+        this.setOnAction(event -> {
+            if (!this.isFree()) {
+                LinkedList<Move> validMoves = this.piece.getAllPossibleMoves();
+                for (Move move : validMoves) {
+                    Position endPosition = move.getEnd();
+                    Field other = this.board.getField(endPosition);
+                    other.toggleHighlight();
+                }
+            }
+        });
     }
 
     public void setPiece(ChessPiece piece) {

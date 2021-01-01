@@ -34,7 +34,7 @@ public class Pawn extends ChessPiece {
 
     private boolean hasAlreadyMoved() {
         Position position = this.getField().getPosition();
-        if (this.owner.getType() == Player.Type.WHITE) {
+        if (this.owner == Player.WHITE) {
             return position.getRow() == 6;
         } else {
             return position.getRow() == 1;
@@ -44,7 +44,7 @@ public class Pawn extends ChessPiece {
     private Position getFrontField(int count) {
         Position position = this.getField().getPosition();
 
-        int diff = count * (this.owner.getType() == Player.Type.WHITE ? -1 : 1);
+        int diff = count * (this.owner == Player.WHITE ? -1 : 1);
         int row = position.getRow() + diff;
         int column = position.getColumn();
 
