@@ -19,39 +19,38 @@ public class Pawn extends ChessPiece {
     @Override
     public LinkedList<Move> getAllPossibleMoves() {
         LinkedList<Move> moves = new LinkedList<>();
-
-        Field field = this.getField();
         ChessBoard board = field.getBoard();
         Position position = field.getPosition();
 
-        Position oneFieldAbove = this.getFrontField(1);
-        if (board.getField(oneFieldAbove).isFree()) {
-            moves.add(new Move(position, oneFieldAbove));
+        int diff = this.getOwner() == Player.WHITE ? -1 : 1;
+
+        Position otherPosition = position.transform(diff, 0);
+        if (otherPosition != null) {
+            Field otherField = board.getField(otherPosition);
+            if (otherField.isFree()) {
+                moves.add(new Move(position, otherPosition));
+
+                // It can be done only if the forward field is free
+                boolean pawnIsOnStartPosition = position.getRow() == (7 + diff) % 7;
+                otherPosition = position.transform(diff * 2, 0);
+                if (pawnIsOnStartPosition && board.getField(otherPosition).isFree()) {
+                    moves.add(new Move(position, otherPosition));
+                }
+            } else if (otherField.getPiece().getOwner() != this.getOwner()) {
+                moves.add(new Move(position, otherPosition));
+            }
+        }
+
+        for (int diffX : new int[] {-1, 1}) {
+            otherPosition = position.transform(diff, diffX);
+            if (otherPosition != null) {
+                Field otherField = board.getField(otherPosition);
+                if (otherField.isBusy() && otherField.getPiece().getOwner() != this.getOwner()) {
+                    moves.add(new Move(position, otherPosition));
+                }
+            }
         }
 
         return moves;
-    }
-
-    private boolean hasAlreadyMoved() {
-        Position position = this.getField().getPosition();
-        if (this.owner == Player.WHITE) {
-            return position.getRow() == 6;
-        } else {
-            return position.getRow() == 1;
-        }
-    }
-
-    private Position getFrontField(int count) {
-        Position position = this.getField().getPosition();
-
-        int diff = count * (this.owner == Player.WHITE ? -1 : 1);
-        int row = position.getRow() + diff;
-        int column = position.getColumn();
-
-        if (row < 0 || row > 8) {
-            return null;
-        }
-
-        return new Position(row, column);
     }
 }

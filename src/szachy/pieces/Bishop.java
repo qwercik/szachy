@@ -28,6 +28,10 @@ public class Bishop extends ChessPiece {
 
                 while (true) {
                     Position otherPosition = position.transform(currentDiffY, currentDiffX);
+                    if (otherPosition == null) {
+                        break;
+                    }
+
                     Field otherField = board.getField(otherPosition);
                     if (otherField.isBusy()) {
                         if (otherField.getPiece().getOwner() != this.getOwner()) {

@@ -35,10 +35,10 @@ public class Position {
         return null;
     }
 
-    public Position mirror(Position position) {
+    public Position mirror() {
         return new Position(
-                BOARD_SIZE - 1 - position.getRow(),
-                position.getColumn()
+                BOARD_SIZE - 1 - this.getRow(),
+                this.getColumn()
         );
     }
 
