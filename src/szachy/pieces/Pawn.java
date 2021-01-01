@@ -65,46 +65,51 @@ public class Pawn extends ChessPiece {
     public void makeMove(Move move) {
         super.makeMove(move);
 
-        ChessBoard board = this.getField().getBoard();
-        Field startField = board.getField(move.getStart());
-        Field endField = board.getField(move.getEnd());
-        endField.setPiece(startField.getPiece());
-        startField.setPiece(null);
+        if (this.isBeingPromoted(move)) {
+            this.handlePawnPromotion(move);
+        }
+    }
 
+    public boolean isBeingPromoted(Move move) {
         int lastRow = this.getOwner() == Player.WHITE ? 0 : 7;
-        if (move.getEnd().getRow() == lastRow) {
-            // User can close alert in theory so I'll show it him as long as he don't choose anything
-            ButtonType queen = new ButtonType("Hetman");
-            ButtonType rook = new ButtonType("Wieża");
-            ButtonType knight = new ButtonType("Skoczek");
-            ButtonType bishop = new ButtonType("Goniec");
+        return move.getEnd().getRow() == lastRow;
+    }
 
-            while (true) {
-                Alert alert = new Alert(
-                        Alert.AlertType.INFORMATION, "Promocja piona",
-                        queen,
-                        rook,
-                        knight,
-                        bishop
-                );
-                alert.setTitle("Promocja piona");
-                alert.setHeaderText("Promocja piona");
-                alert.setContentText("Wybierz figurę, na którą chcesz promować piona");
-                Optional<ButtonType> result = alert.showAndWait();
+    public void handlePawnPromotion(Move move) {
+        Field endField = this.getField().getBoard().getField(move.getEnd());
 
-                if (result.get() != null) {
-                    if (result.get() == queen) {
-                        endField.setPiece(new Queen(this.getOwner()));
-                    } else if (result.get() == rook) {
-                        endField.setPiece(new Rook(this.getOwner()));
-                    } else if (result.get() == knight) {
-                        endField.setPiece(new Knight(this.getOwner()));
-                    } else {
-                        endField.setPiece(new Bishop(this.getOwner()));
-                    }
+        ButtonType queen = new ButtonType("Hetman");
+        ButtonType rook = new ButtonType("Wieża");
+        ButtonType knight = new ButtonType("Skoczek");
+        ButtonType bishop = new ButtonType("Goniec");
 
-                    break;
+        Alert alert = new Alert(
+                Alert.AlertType.INFORMATION, "Promocja piona",
+                queen,
+                rook,
+                knight,
+                bishop
+        );
+        alert.setTitle("Promocja piona");
+        alert.setHeaderText("Promocja piona");
+        alert.setContentText("Wybierz figurę, na którą chcesz promować piona");
+
+        // User can close alert in theory so I'll show it him as long as he don't choose anything
+        while (true) {
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() != null) {
+                if (result.get() == queen) {
+                    endField.setPiece(new Queen(this.getOwner()));
+                } else if (result.get() == rook) {
+                    endField.setPiece(new Rook(this.getOwner()));
+                } else if (result.get() == knight) {
+                    endField.setPiece(new Knight(this.getOwner()));
+                } else {
+                    endField.setPiece(new Bishop(this.getOwner()));
                 }
+
+                break;
             }
         }
     }

@@ -49,5 +49,11 @@ public abstract class ChessPiece {
     public abstract LinkedList<Move> getAllPossibleMoves();
     public void makeMove(Move move) {
         this.alreadyMoved = true;
+
+        ChessBoard board = this.getField().getBoard();
+        Field startField = board.getField(move.getStart());
+        Field endField = board.getField(move.getEnd());
+        endField.setPiece(startField.getPiece());
+        startField.setPiece(null);
     }
 }
