@@ -1,9 +1,7 @@
 package szachy.pieces;
 
 import javafx.scene.image.Image;
-import szachy.ChessPiece;
-import szachy.Move;
-import szachy.Player;
+import szachy.*;
 
 import java.util.LinkedList;
 
@@ -19,6 +17,24 @@ public class King extends ChessPiece {
 
     @Override
     public LinkedList<Move> getAllPossibleMoves() {
-        return new LinkedList<Move>();
+        Position position = this.getField().getPosition();
+        ChessBoard board = this.getField().getBoard();
+        LinkedList<Move> moves = new LinkedList<Move>();
+
+        for (int diffY : new int[] {-1, 0, 1}) {
+            for (int diffX : new int[] {-1, 0, 1}) {
+                if (diffX != 0 || diffY != 0) {
+                    Position otherPosition = position.transform(diffX, diffY);
+                    Field otherField = board.getField(otherPosition);
+                    if (otherField.isBusy() && otherField.getPiece().getOwner() == this.getOwner()) {
+                        continue;
+                    }
+
+                    moves.add(new Move(position, otherPosition));
+                }
+            }
+        }
+
+        return moves;
     }
 }

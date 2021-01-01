@@ -45,6 +45,6 @@ public class GameState {
             this.board.setPiece(new Position(6, i), new Pawn(Player.WHITE));
         }
 
-        this.board.setPiece(new Position(4, 4), new Bishop(Player.WHITE));
+        this.board.setPiece(new Position(4, 4), new King(Player.WHITE));
     }
 }
