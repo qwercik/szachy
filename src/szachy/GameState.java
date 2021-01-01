@@ -2,12 +2,21 @@ package szachy;
 
 import szachy.pieces.*;
 
+import java.util.LinkedList;
+
 public class GameState {
     private ChessBoard board;
     private Player player = Player.WHITE;
+    private LinkedList<Move> moves = new LinkedList<Move>();
+    private Field activeField;
+    private ControlPanel controlPanel;
 
     public GameState() {
         this.initChessboard();
+    }
+
+    public void setControlPanel(ControlPanel controlPanel) {
+        this.controlPanel = controlPanel;
     }
 
     public ChessBoard getChessBoard() {
@@ -16,6 +25,33 @@ public class GameState {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public void makeMove(Move move) {
+        this.moves.addLast(move);
+        Field startField = this.board.getField(move.getStart());
+        Field endField = this.board.getField(move.getEnd());
+
+        endField.setPiece(startField.getPiece());
+        startField.setPiece(null);
+
+        this.player = this.player.toggle();
+        this.controlPanel.update();
+    }
+
+    public void takeBackMove() {
+        Move move = this.moves.getLast();
+        this.moves.removeLast();
+
+        this.makeMove(move.opposite());
+    }
+
+    public void setActiveField(Field field) {
+        this.activeField = field;
+    }
+    
+    public Field getActiveField() {
+        return this.activeField;
     }
 
     private void initChessboard() {

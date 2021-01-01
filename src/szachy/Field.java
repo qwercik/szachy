@@ -45,6 +45,16 @@ public class Field extends Button {
                 return;
             }
 
+            if (this.highlight) {
+                GameState state = this.getBoard().getState();
+                state.makeMove(new Move(
+                        state.getActiveField().getPosition(),
+                        this.getPosition()
+                ));
+                this.getBoard().reset();
+                return;
+            }
+
             this.getBoard().reset();
             this.turnOnActive();
 
@@ -61,13 +71,16 @@ public class Field extends Button {
 
     public void setPiece(ChessPiece piece) {
         this.piece = piece;
+        if (piece == null) {
+            this.setGraphic(null);
+        } else {
+            ImageView image = new ImageView(this.piece.getIcon());
+            piece.setField(this);
+            image.setFitHeight(SIZE);
+            image.setFitWidth(SIZE);
 
-        ImageView image = new ImageView(this.piece.getIcon());
-        piece.setField(this);
-        image.setFitHeight(SIZE);
-        image.setFitWidth(SIZE);
-
-        this.setGraphic(image);
+            this.setGraphic(image);
+        }
     }
 
     public ChessPiece getPiece() {
@@ -94,6 +107,7 @@ public class Field extends Button {
         if (!this.active) {
             this.getStyleClass().add("field--active");
             this.active = true;
+            this.getBoard().getState().setActiveField(this);
         }
     }
 
@@ -101,6 +115,7 @@ public class Field extends Button {
         if (this.active) {
             this.getStyleClass().remove("field--active");
             this.active = false;
+            this.getBoard().getState().setActiveField(null);
         }
     }
 

@@ -16,5 +16,9 @@ public class Move {
     public Position getEnd() {
         return this.end;
     }
+
+    public Move opposite() {
+        return new Move(this.end, this.start);
+    }
 }
 

@@ -8,15 +8,15 @@ import szachy.Player;
 public class TurnInfo extends Label {
     private static final String WHITE_TURN = "Ruch białych";
     private static final String BLACK_TURN = "Ruch czarnych";
-    private Player player;
+    private GameState state;
 
     public TurnInfo(GameState state) {
         super(WHITE_TURN);
-        this.player = state.getPlayer();
+        this.state = state;
         this.setAlignment(Pos.CENTER);
     }
 
-    public void toggle() {
-        this.setText(this.player.toggle() == Player.WHITE ? BLACK_TURN : WHITE_TURN);
+    public void update() {
+        this.setText(this.state.getPlayer() == Player.WHITE ? WHITE_TURN : BLACK_TURN);
     }
 }

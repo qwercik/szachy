@@ -13,24 +13,36 @@ import szachy.controls.*;
 public class ControlPanel extends VBox {
     private static final int WIDTH = 200;
 
+    private TurnInfo turnLabel;
+    private Button takeBack;
+    private Button draw;
+    private Button giveUp;
+    private AboutButton info;
+
     public ControlPanel(GameState state) {
-        TurnInfo turnLabel = new TurnInfo(state);
-        Button takeBack = new TakeBack(state);
-        Button draw = new OfferDraw(state);
-        Button giveUp = new GiveUp(state);
-        AboutButton info = new AboutButton(state);
+        state.setControlPanel(this);
+
+        this.turnLabel = new TurnInfo(state);
+        this.takeBack = new TakeBack(state);
+        this.draw = new OfferDraw(state);
+        this.giveUp = new GiveUp(state);
+        this.info = new AboutButton(state);
 
         this.setPrefWidth(WIDTH);
-        turnLabel.setPrefWidth(WIDTH);
-        takeBack.setPrefWidth(WIDTH);
-        draw.setPrefWidth(WIDTH);
-        giveUp.setPrefWidth(WIDTH);
-        info.setPrefWidth(WIDTH);
+        this.turnLabel.setPrefWidth(WIDTH);
+        this.takeBack.setPrefWidth(WIDTH);
+        this.draw.setPrefWidth(WIDTH);
+        this.giveUp.setPrefWidth(WIDTH);
+        this.info.setPrefWidth(WIDTH);
 
         this.setPadding(new Insets(10, 10, 10, 10));
         this.getChildren().addAll(turnLabel, takeBack, draw, giveUp, info);
         for (Node child : this.getChildren()) {
             setMargin(child, new Insets(10, 0, 10, 0));
         }
+    }
+
+    public void update() {
+        this.turnLabel.update();
     }
 }
