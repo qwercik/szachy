@@ -19,7 +19,7 @@ public class GameState {
     }
 
     private void initChessboard() {
-        this.board = new ChessBoard();
+        this.board = new ChessBoard(this);
 
         this.board.setPiece(new Position(0, 0), new Rook(Player.BLACK));
         this.board.setPiece(new Position(0, 1), new Knight(Player.BLACK));

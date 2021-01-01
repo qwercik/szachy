@@ -6,7 +6,7 @@
     -fx-background-color: #dbcbc3;
 }
 
-.field--white:hover {
+.field--white:not(.field--highlight):hover {
     -fx-background-color: #ecdcd4;
 }
 
@@ -14,10 +14,18 @@
     -fx-background-color: #5f2f15;
 }
 
-.field--black:hover {
+.field--black:not(.field--highlight):hover {
     -fx-background-color: #704026;
 }
 
-.field--highlight {
-    -fx-background-color: #55b918;
+.field--active {
+    -fx-background-color: #6fba4a;
+}
+
+.field--white.field--highlight {
+    -fx-background-color: #56d9d7;
+}
+
+.field--black.field--highlight {
+    -fx-background-color: #4abab8;
 }

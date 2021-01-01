@@ -22,6 +22,8 @@ public class Field extends Button {
     private Position position;
     private ChessBoard board;
     private Type type;
+    private boolean highlight = false;
+    private boolean active = false;
 
     public Field(Type type, Position position, ChessBoard board) {
         this.type = type;
@@ -37,6 +39,15 @@ public class Field extends Button {
         this.setBorder(Border.EMPTY);
 
         this.setOnAction(event -> {
+            // Clicking two times at row on the same field should cause toggling it
+            if (this.active) {
+                this.getBoard().reset();
+                return;
+            }
+
+            this.getBoard().reset();
+            this.turnOnActive();
+
             if (!this.isFree()) {
                 LinkedList<Move> validMoves = this.piece.getAllPossibleMoves();
                 for (Move move : validMoves) {
@@ -79,6 +90,26 @@ public class Field extends Button {
         return this.piece != null;
     }
 
+    public void turnOnActive() {
+        if (!this.active) {
+            this.getStyleClass().add("field--active");
+            this.active = true;
+        }
+    }
+
+    public void turnOffActive() {
+        if (this.active) {
+            this.getStyleClass().remove("field--active");
+            this.active = false;
+        }
+    }
+
+    public void turnOffHighlight() {
+        if (this.highlight) {
+            this.toggleHighlight();
+        }
+    }
+
     public void toggleHighlight() {
         ObservableList<String> classes = this.getStyleClass();
         String className = "field--highlight";
@@ -88,5 +119,7 @@ public class Field extends Button {
         } else {
             classes.add(className);
         }
+
+        this.highlight = !this.highlight;
     }
 }

@@ -9,9 +9,25 @@ import javafx.scene.layout.GridPane;
 public class ChessBoard extends GridPane {
     private static final int SIZE = 8;
     private Field[][] fields = new Field[SIZE][SIZE];
+    private GameState state;
 
-    ChessBoard() {
+    public ChessBoard(GameState state) {
+        this.state = state;
         this.initChessboardAndLabels();
+    }
+
+    // Reset active and highlighted fields
+    public void reset() {
+        for (var row : fields) {
+            for (var field : row) {
+                field.turnOffHighlight();
+                field.turnOffActive();
+            }
+        }
+    }
+
+    public GameState getState() {
+        return this.state;
     }
 
     public Field getField(Position position) {
