@@ -44,5 +44,7 @@ public class GameState {
         for (int i = 0; i < 8; i++) {
             this.board.setPiece(new Position(6, i), new Pawn(Player.WHITE));
         }
+
+        this.board.setPiece(new Position(4, 4), new Bishop(Player.WHITE));
     }
 }

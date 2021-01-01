@@ -5,9 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-
-import java.util.LinkedList;
 
 public class ChessBoard extends GridPane {
     private static final int SIZE = 8;
@@ -29,13 +26,6 @@ public class ChessBoard extends GridPane {
         Field field = this.getField(position);
         field.setPiece(piece);
         this.setField(position, field);
-    }
-
-    public Position mirrorPosition(Position position) {
-        return new Position(
-                SIZE - 1 - position.getRow(),
-                position.getColumn()
-        );
     }
 
     private void initChessboardAndLabels() {

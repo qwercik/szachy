@@ -21,6 +21,10 @@ public abstract class ChessPiece {
         return this.field;
     }
 
+    public Player getOwner() {
+        return this.owner;
+    }
+
     protected String getIconsDirectory() {
         return String.format("%s/%s", "/assets/pieces", this.owner == Player.WHITE ? "white" : "black");
     }

@@ -75,6 +75,10 @@ public class Field extends Button {
         return this.piece == null;
     }
 
+    public boolean isBusy() {
+        return this.piece != null;
+    }
+
     public void toggleHighlight() {
         ObservableList<String> classes = this.getStyleClass();
         String className = "field--highlight";
