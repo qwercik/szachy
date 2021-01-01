@@ -21,6 +21,10 @@ public class Bishop extends ChessPiece {
         ChessBoard board = this.getField().getBoard();
         LinkedList<Move> moves = new LinkedList<Move>();
 
+        if (!this.isOwnedByCurrentPlayer()) {
+            return moves;
+        }
+
         for (int diffY : new int[] {-1, 1}) {
             for (int diffX : new int[] {-1, 1}) {
                 int currentDiffY = diffY;

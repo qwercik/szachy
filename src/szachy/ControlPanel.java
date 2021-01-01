@@ -14,7 +14,7 @@ public class ControlPanel extends VBox {
     private static final int WIDTH = 200;
 
     private TurnInfo turnLabel;
-    private Button takeBack;
+    private TakeBack takeBack;
     private Button draw;
     private Button giveUp;
     private AboutButton info;
@@ -44,5 +44,6 @@ public class ControlPanel extends VBox {
 
     public void update() {
         this.turnLabel.update();
+        this.takeBack.update();
     }
 }

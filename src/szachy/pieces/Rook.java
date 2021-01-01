@@ -21,6 +21,10 @@ public class Rook extends ChessPiece {
         Position position = this.getField().getPosition();
         LinkedList<Move> moves = new LinkedList<Move>();
 
+        if (!this.isOwnedByCurrentPlayer()) {
+            return moves;
+        }
+
         for (int diffY : new int[] {-1, 0, 1}) {
             for (int diffX : new int[] {-1, 0, 1}) {
                 if (diffX == 0 ^ diffY == 0) {

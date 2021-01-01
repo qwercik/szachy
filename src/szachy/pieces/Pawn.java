@@ -22,6 +22,10 @@ public class Pawn extends ChessPiece {
         ChessBoard board = field.getBoard();
         Position position = field.getPosition();
 
+        if (!this.isOwnedByCurrentPlayer()) {
+            return moves;
+        }
+
         int diff = this.getOwner() == Player.WHITE ? -1 : 1;
 
         Position otherPosition = position.transform(diff, 0);
@@ -36,8 +40,6 @@ public class Pawn extends ChessPiece {
                 if (pawnIsOnStartPosition && board.getField(otherPosition).isFree()) {
                     moves.add(new Move(position, otherPosition));
                 }
-            } else if (otherField.getPiece().getOwner() != this.getOwner()) {
-                moves.add(new Move(position, otherPosition));
             }
         }
 

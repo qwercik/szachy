@@ -8,7 +8,6 @@ public abstract class ChessPiece {
     protected Player owner;
     protected Field field;
 
-
     public ChessPiece(Player owner) {
         this.owner = owner;
     }
@@ -23,6 +22,10 @@ public abstract class ChessPiece {
 
     public Player getOwner() {
         return this.owner;
+    }
+
+    public boolean isOwnedByCurrentPlayer() {
+        return this.getOwner() == this.getField().getBoard().getState().getPlayer();
     }
 
     protected String getIconsDirectory() {
