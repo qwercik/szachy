@@ -11,5 +11,8 @@ public class GiveUp extends Button {
     public GiveUp(GameState state) {
         super(title);
         this.setPadding(new Insets(10, 10, 10, 10));
+        this.setOnAction(event -> {
+            state.endGameWithWin(state.getPlayer().toggle());
+        });
     }
 }

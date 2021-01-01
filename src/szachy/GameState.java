@@ -1,5 +1,7 @@
 package szachy;
 
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import szachy.pieces.*;
 
 import java.util.LinkedList;
@@ -10,8 +12,10 @@ public class GameState {
     private LinkedList<Move> moves = new LinkedList<Move>();
     private Field activeField;
     private ControlPanel controlPanel;
+    private Stage stage;
 
-    public GameState() {
+    public GameState(Stage stage) {
+        this.stage = stage;
         this.initChessboard();
     }
 
@@ -60,6 +64,27 @@ public class GameState {
     
     public Field getActiveField() {
         return this.activeField;
+    }
+
+    public void endGameWithDraw() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Koniec gry");
+        alert.setHeaderText("Koniec gry");
+        alert.setContentText("Gra zakończyła się remisem");
+
+        alert.showAndWait();
+        this.stage.close();
+    }
+
+    public void endGameWithWin(Player winner) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Koniec gry");
+        alert.setHeaderText("Koniec gry");
+        String winnerText = (winner == Player.WHITE) ? "białych" : "czarnych";
+        alert.setContentText("Gra zakończyła się zwycięstwem " + winnerText);
+
+        alert.showAndWait();
+        this.stage.close();
     }
 
     private void initChessboard() {

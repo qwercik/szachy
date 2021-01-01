@@ -15,7 +15,7 @@ public class ControlPanel extends VBox {
 
     private TurnInfo turnLabel;
     private TakeBack takeBack;
-    private Button draw;
+    private OfferDraw draw;
     private Button giveUp;
     private AboutButton info;
 

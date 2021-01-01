@@ -28,7 +28,7 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.getIcons().add(new Image(ICON_PATH));
 
-        GameState state = new GameState();
+        GameState state = new GameState(stage);
         ControlPanel panel = new ControlPanel(state);
         HBox root = new HBox();
         root.getChildren().addAll(state.getChessBoard(), panel);
