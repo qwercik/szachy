@@ -7,6 +7,7 @@ import java.util.LinkedList;
 public abstract class ChessPiece {
     protected Player owner;
     protected Field field;
+    protected boolean alreadyMoved = false;
 
     public ChessPiece(Player owner) {
         this.owner = owner;
@@ -46,4 +47,7 @@ public abstract class ChessPiece {
 
     public abstract Image getIcon();
     public abstract LinkedList<Move> getAllPossibleMoves();
+    public void makeMove(Move move) {
+        this.alreadyMoved = true;
+    }
 }

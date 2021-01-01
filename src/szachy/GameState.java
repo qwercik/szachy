@@ -36,7 +36,8 @@ public class GameState {
     }
 
     public void makeMove(Move move) {
-        this.makeMoveWithoutRegisteringIt(move);
+        ChessPiece piece = this.board.getField(move.getStart()).getPiece();
+        piece.makeMove(move);
         this.moves.addLast(move);
         this.player = this.player.toggle();
         this.controlPanel.update();
@@ -44,18 +45,11 @@ public class GameState {
 
     public void takeBackMove() {
         Move move = this.moves.getLast();
-        this.makeMoveWithoutRegisteringIt(move.opposite());
+        ChessPiece piece = this.board.getField(move.getStart()).getPiece();
+        piece.makeMove(move);
         this.moves.removeLast();
         this.player = this.player.toggle();
         this.controlPanel.update();
-    }
-
-    private void makeMoveWithoutRegisteringIt(Move move) {
-        Field startField = this.board.getField(move.getStart());
-        Field endField = this.board.getField(move.getEnd());
-
-        endField.setPiece(startField.getPiece());
-        startField.setPiece(null);
     }
 
     public void setActiveField(Field field) {

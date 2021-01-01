@@ -45,4 +45,15 @@ public class Knight extends ChessPiece {
 
         return moves;
     }
+
+    @Override
+    public void makeMove(Move move) {
+        super.makeMove(move);
+
+        ChessBoard board = this.getField().getBoard();
+        Field startField = board.getField(move.getStart());
+        Field endField = board.getField(move.getEnd());
+        endField.setPiece(startField.getPiece());
+        startField.setPiece(null);
+    }
 }
