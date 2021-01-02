@@ -38,7 +38,7 @@ public class King extends ChessPiece {
                         continue;
                     }
 
-                    moves.add(new Move(position, otherPosition));
+                    moves.add(new Move(position, otherPosition, otherField.getPiece()));
                 }
             }
         }

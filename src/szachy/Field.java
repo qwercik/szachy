@@ -47,9 +47,11 @@ public class Field extends Button {
 
             if (this.highlight) {
                 GameState state = this.getBoard().getState();
+
                 state.makeMove(new Move(
                         state.getActiveField().getPosition(),
-                        this.getPosition()
+                        this.getPosition(),
+                        this.getPiece()
                 ));
                 this.getBoard().reset();
                 return;
@@ -71,6 +73,7 @@ public class Field extends Button {
 
     public void setPiece(ChessPiece piece) {
         this.piece = piece;
+
         if (piece == null) {
             this.setGraphic(null);
         } else {

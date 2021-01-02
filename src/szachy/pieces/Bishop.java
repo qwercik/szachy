@@ -39,13 +39,13 @@ public class Bishop extends ChessPiece {
                     Field otherField = board.getField(otherPosition);
                     if (otherField.isBusy()) {
                         if (otherField.getPiece().getOwner() != this.getOwner()) {
-                            moves.add(new Move(position, otherPosition));
+                            moves.add(new Move(position, otherPosition, otherField.getPiece()));
                         }
 
                         break;
                     }
 
-                    moves.add(new Move(position, otherPosition));
+                    moves.add(new Move(position, otherPosition, otherField.getPiece()));
                     currentDiffY += diffY;
                     currentDiffX += diffX;
                 }

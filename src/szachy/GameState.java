@@ -36,18 +36,23 @@ public class GameState {
     }
 
     public void makeMove(Move move) {
-        ChessPiece piece = this.board.getField(move.getStart()).getPiece();
+        ChessPiece piece = this.getChessBoard().getField(move.getStart()).getPiece();
         piece.makeMove(move);
         this.moves.addLast(move);
+
         this.player = this.player.toggle();
         this.controlPanel.update();
     }
 
     public void takeBackMove() {
         Move move = this.moves.getLast();
-        ChessPiece piece = this.board.getField(move.getStart()).getPiece();
-        piece.makeMove(move);
         this.moves.removeLast();
+
+        ChessPiece piece = this.board.getField(move.getEnd()).getPiece();
+        piece.makeMove(move.opposite());
+
+        this.board.getField(move.getEnd()).setPiece(move.getRemovedPiece());
+
         this.player = this.player.toggle();
         this.controlPanel.update();
     }

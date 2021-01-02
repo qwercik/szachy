@@ -37,13 +37,13 @@ public class Pawn extends ChessPiece {
         if (otherPosition != null) {
             Field otherField = board.getField(otherPosition);
             if (otherField.isFree()) {
-                moves.add(new Move(position, otherPosition));
+                moves.add(new Move(position, otherPosition, otherField.getPiece()));
 
                 // It can be done only if the forward field is free
                 boolean pawnIsOnStartPosition = position.getRow() == (7 + diff) % 7;
                 otherPosition = position.transform(diff * 2, 0);
                 if (pawnIsOnStartPosition && board.getField(otherPosition).isFree()) {
-                    moves.add(new Move(position, otherPosition));
+                    moves.add(new Move(position, otherPosition, board.getField(otherPosition).getPiece()));
                 }
             }
         }
@@ -53,7 +53,7 @@ public class Pawn extends ChessPiece {
             if (otherPosition != null) {
                 Field otherField = board.getField(otherPosition);
                 if (otherField.isBusy() && otherField.getPiece().getOwner() != this.getOwner()) {
-                    moves.add(new Move(position, otherPosition));
+                    moves.add(new Move(position, otherPosition, otherField.getPiece()));
                 }
             }
         }
