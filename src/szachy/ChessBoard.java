@@ -30,6 +30,10 @@ public class ChessBoard extends GridPane {
         return this.state;
     }
 
+    public Field[][] getFields() {
+        return this.fields;
+    }
+
     public Field getField(Position position) {
         return this.fields[position.getRow()][position.getColumn()];
     }

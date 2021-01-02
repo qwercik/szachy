@@ -54,6 +54,7 @@ public class Field extends Button {
                         this.getPiece()
                 ));
                 this.getBoard().reset();
+
                 return;
             }
 
@@ -139,5 +140,19 @@ public class Field extends Button {
         }
 
         this.highlight = !this.highlight;
+    }
+
+    public boolean isAttackedBy(Player player) {
+        for (Field[] row : this.board.getFields()) {
+            for (Field field : row) {
+                for (Move move : field.getPiece().getAllPossibleMoves()) {
+                    if (field.getPosition() == move.getEnd()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
