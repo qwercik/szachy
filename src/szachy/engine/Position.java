@@ -1,8 +1,6 @@
 package szachy.engine;
 
 public class Position {
-    private static final int BOARD_SIZE = 8;
-
     public Position(int row, int column) {
         this.setRow(row);
         this.setColumn(column);
@@ -35,15 +33,8 @@ public class Position {
         return null;
     }
 
-    public Position mirror() {
-        return new Position(
-                BOARD_SIZE - 1 - this.getRow(),
-                this.getColumn()
-        );
-    }
-
     private boolean coordinateValid(int coordinate) {
-        return coordinate >= 0 && coordinate < BOARD_SIZE;
+        return coordinate >= 0 && coordinate < ChessBoard.SIZE;
     }
 
     private int row;

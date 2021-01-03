@@ -2,6 +2,7 @@ package szachy.events;
 
 import javafx.event.Event;
 import javafx.event.EventType;
+import szachy.controls.ControlPanel;
 import szachy.engine.GameState;
 import szachy.GameWindow;
 
@@ -12,8 +13,10 @@ public class TakeBack extends Event {
 
     public void handle(GameWindow app) {
         GameState state = app.getGameState();
+        ControlPanel panel = app.getControlPanel();
         if (state.canTakeBack()) {
             state.takeBackMove();
+            panel.update(state);
         }
     }
 

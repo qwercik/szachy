@@ -55,13 +55,12 @@ public abstract class ChessPiece {
     public abstract Image getIcon();
     public abstract LinkedList<Move> getAllPossibleMoves();
     public void makeMove(Move move) {
-        this.alreadyMoved = true;
-
-        ChessBoard board = this.getField().getBoard();
-        Field startField = board.getField(move.getStart());
+        ChessBoard board = this.field.getBoard();
         Field endField = board.getField(move.getEnd());
-        endField.setPiece(startField.getPiece());
-        startField.setPiece(null);
+        this.field.setPiece(null);
+        endField.setPiece(this);
+
+        this.alreadyMoved = true;
     }
 
     protected Player owner;
