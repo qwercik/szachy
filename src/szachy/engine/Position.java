@@ -37,6 +37,10 @@ public class Position {
         return coordinate >= 0 && coordinate < ChessBoard.SIZE;
     }
 
+    public boolean equals(Position other) {
+        return this.row == other.row && this.column == other.column;
+    }
+
     private int row;
     private int column;
 }

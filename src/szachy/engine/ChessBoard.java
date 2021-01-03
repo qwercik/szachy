@@ -75,17 +75,16 @@ public class ChessBoard extends GridPane {
         return this.activeField;
     }
 
-    public boolean isAttacked(Position position) {
+    public boolean isAttacked(Position position, Player attacker) {
         for (Field[] row : this.fields) {
             for (Field field : row) {
                 ChessPiece piece = field.getPiece();
-                if (piece != null) {
+                if (piece != null && piece.getOwner() == attacker) {
                     for (Move move : piece.getAllPossibleMoves()) {
-                        if (move.getEnd() == position) {
+                        if (move.getEnd().equals(position)) {
                             return true;
                         }
                     }
-                    return true;
                 }
             }
         }

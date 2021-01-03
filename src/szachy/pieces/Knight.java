@@ -26,10 +26,6 @@ public class Knight extends ChessPiece {
         ChessBoard board = this.getField().getBoard();
         LinkedList<Move> moves = new LinkedList<Move>();
 
-        if (!this.isOwnedByCurrentPlayer()) {
-            return moves;
-        }
-
         for (int diffY : new int[] {-2, -1, 1, 2}) {
             for (int diffX : new int[] {-2, -1, 1, 2}) {
                 if (Math.abs(diffX) != Math.abs(diffY)) {

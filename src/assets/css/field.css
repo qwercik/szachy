@@ -25,6 +25,10 @@
     -fx-background-color: #6fba4a;
 }
 
+.field--king-under-check {
+    -fx-background-color: #0000ff;
+}
+
 
 .field--white.field--destination {
     -fx-background-color: #f19b8f;
@@ -32,9 +36,4 @@
 
 .field--black.field--destination {
     -fx-background-color: #ce887e;
-}
-
-
-.field--king-under-check {
-    -fx-background-color: #0000ff;
 }

@@ -1,13 +1,11 @@
 package szachy.events;
 
+import com.sun.media.jfxmediaimpl.platform.Platform;
 import javafx.event.Event;
 import javafx.event.EventType;
 import szachy.GameWindow;
 import szachy.controls.ControlPanel;
-import szachy.engine.ChessBoard;
-import szachy.engine.Field;
-import szachy.engine.GameState;
-import szachy.engine.Move;
+import szachy.engine.*;
 import szachy.pieces.ChessPiece;
 
 public class MoveHandler extends Event {
@@ -33,9 +31,9 @@ public class MoveHandler extends Event {
                         this.end.getPiece()
                 ));
 
-                this.handleCheckIfOccurred(board);
                 controlPanel.update(state);
                 board.setAllFieldsStateDefault();
+                this.handleCheckIfOccurred(board, state.getCurrentPlayer());
             }
         } else {
             board.setAllFieldsStateDefault();
@@ -50,15 +48,17 @@ public class MoveHandler extends Event {
         }
     }
 
-    private void handleCheckIfOccurred(ChessBoard board) {
+    private void handleCheckIfOccurred(ChessBoard board, Player potentiallyChecked) {
         for (Field[] row : board.getAllFields()) {
             for (Field field : row) {
                 ChessPiece piece = field.getPiece();
-                if (piece != null && piece.getType() == ChessPiece.Type.KING) {
-                    if (board.isAttacked(field.getPosition())) {
+                if (piece != null && piece.getType() == ChessPiece.Type.KING && piece.getOwner() == potentiallyChecked) {
+                    Player attacker = potentiallyChecked.opposite();
+                    if (board.isAttacked(field.getPosition(), attacker)) {
                         field.setState(Field.State.KING_UNDER_CHECK);
-                        return;
                     }
+
+                    return;
                 }
             }
         }
