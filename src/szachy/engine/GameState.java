@@ -37,10 +37,8 @@ public class GameState {
 
     public void makeMove(Move move) {
         ChessPiece piece = this.board.getField(move.getStart()).getPiece();
-        if (piece.getOwner() == this.getCurrentPlayer()) {
-            piece.makeMove(move);
-        }
 
+        piece.makeMove(move);
         this.moves.addLast(move);
         this.currentPlayer = this.currentPlayer.opposite();
     }

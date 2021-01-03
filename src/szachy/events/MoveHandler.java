@@ -1,6 +1,5 @@
 package szachy.events;
 
-import com.sun.media.jfxmediaimpl.platform.Platform;
 import javafx.event.Event;
 import javafx.event.EventType;
 import szachy.GameWindow;
@@ -19,9 +18,9 @@ public class MoveHandler extends Event {
         ControlPanel controlPanel = app.getControlPanel();
         ChessBoard board = state.getBoard();
 
-        if (this.end.getState().isStartingPoint()) {
-            board.setAllFieldsStateDefault();
-        } else if (this.end.getState().isDestination()) {
+        if (this.end.getState().getType() == FieldState.Type.STARTING_POINT) {
+            board.setAllFieldsStateDefault(false);
+        } else if (this.end.getState().getType() == FieldState.Type.DESTINATION) {
             Field field = board.getActiveField();
             if (field != null) {
                 state.makeMove(new Move(
@@ -32,17 +31,20 @@ public class MoveHandler extends Event {
                 ));
 
                 controlPanel.update(state);
-                board.setAllFieldsStateDefault();
+                board.setAllFieldsStateDefault(true);
                 this.handleCheckIfOccurred(board, state.getCurrentPlayer());
             }
         } else {
-            board.setAllFieldsStateDefault();
+            board.setAllFieldsStateDefault(false);
 
             if (this.end.isOccupied()) {
-                this.end.setState(Field.State.STARTING_POINT);
+                this.end.updateState(this.end.getState().withType(FieldState.Type.STARTING_POINT));
                 ChessPiece piece = this.end.getPiece();
-                for (Move move : piece.getAllPossibleMoves()) {
-                    board.getField(move.getEnd()).setState(Field.State.ATTACKED_FIELD);
+                if (piece.getOwner() == state.getCurrentPlayer()) {
+                    for (Move move : piece.getAllPossibleMoves()) {
+                        Field field = board.getField(move.getEnd());
+                        field.updateState(field.getState().withType(FieldState.Type.DESTINATION));
+                    }
                 }
             }
         }
@@ -55,7 +57,7 @@ public class MoveHandler extends Event {
                 if (piece != null && piece.getType() == ChessPiece.Type.KING && piece.getOwner() == potentiallyChecked) {
                     Player attacker = potentiallyChecked.opposite();
                     if (board.isAttacked(field.getPosition(), attacker)) {
-                        field.setState(Field.State.KING_UNDER_CHECK);
+                        field.updateState(field.getState().withCheck(true));
                     }
 
                     return;

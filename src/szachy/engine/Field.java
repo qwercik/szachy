@@ -21,33 +21,6 @@ public class Field extends Button {
         }
     }
 
-    public enum State {
-        DEFAULT,
-        STARTING_POINT,
-        KING_UNDER_CHECK,
-        ATTACKED_FIELD;
-
-        public boolean isStartingPoint() {
-            return this == STARTING_POINT;
-        }
-
-        public boolean isDestination() {
-            return this == KING_UNDER_CHECK || this == ATTACKED_FIELD;
-        }
-
-        public String getCssClass() {
-            if (this == STARTING_POINT) {
-                return "field--starting-point";
-            } else if (this == ATTACKED_FIELD) {
-                return "field--destination";
-            } else if (this == KING_UNDER_CHECK) {
-                return "field--king-under-check";
-            } else {
-                return null;
-            }
-        }
-    }
-
     public Field(Type type, Position position, ChessBoard board) {
         this.position = position;
         this.board = board;
@@ -96,13 +69,13 @@ public class Field extends Button {
         return this.piece != null;
     }
 
-    public void setState(State newState) {
+    public void updateState(FieldState newState) {
         String cssClassToRemove = this.state.getCssClass();
         if (cssClassToRemove != null) {
             this.getStyleClass().remove(cssClassToRemove);
         }
 
-        if (this.state == State.STARTING_POINT) {
+        if (this.state.getType() == FieldState.Type.STARTING_POINT) {
             this.getBoard().setActiveField(null);
         }
 
@@ -112,17 +85,18 @@ public class Field extends Button {
             this.getStyleClass().add(cssClassToAdd);
         }
 
-        if (this.state == State.STARTING_POINT) {
+        if (this.state.getType() == FieldState.Type.STARTING_POINT) {
             this.getBoard().setActiveField(this);
         }
     }
 
-    public State getState() {
+    public FieldState getState() {
         return this.state;
     }
 
 
-    private State state = State.DEFAULT;
+
+    private FieldState state = new FieldState();
 
     private final Position position;
     private final ChessBoard board;
