@@ -1,13 +1,18 @@
 package szachy.pieces;
 
 import javafx.scene.image.Image;
-import szachy.*;
+import szachy.engine.*;
 
 import java.util.LinkedList;
 
 public class Rook extends ChessPiece {
     public Rook(Player player) {
         super(player);
+    }
+
+    @Override
+    public Type getType() {
+        return Type.ROOK;
     }
 
     @Override
@@ -38,15 +43,15 @@ public class Rook extends ChessPiece {
                         }
 
                         Field otherField = board.getField(otherPosition);
-                        if (otherField.isBusy()) {
+                        if (otherField.isOccupied()) {
                             if (otherField.getPiece().getOwner() != this.getOwner()) {
-                                moves.add(new Move(position, otherPosition, otherField.getPiece()));
+                                moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
                             }
 
                             break;
                         }
 
-                        moves.add(new Move(position, otherPosition, otherField.getPiece()));
+                        moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
                         currentDiffX += diffX;
                         currentDiffY += diffY;
                     }

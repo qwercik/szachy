@@ -1,17 +1,28 @@
-package szachy;
+package szachy.pieces;
 
 import javafx.scene.image.Image;
+import szachy.engine.ChessBoard;
+import szachy.engine.Field;
+import szachy.engine.Move;
+import szachy.engine.Player;
 
 import java.util.LinkedList;
 
 public abstract class ChessPiece {
-    protected Player owner;
-    protected Field field;
-    protected boolean alreadyMoved = false;
+    public enum Type {
+        KING,
+        QUEEN,
+        ROOK,
+        KNIGHT,
+        BISHOP,
+        PAWN
+    }
 
     public ChessPiece(Player owner) {
         this.owner = owner;
     }
+
+    public abstract Type getType();
 
     public void setField(Field field) {
         this.field = field;
@@ -26,7 +37,7 @@ public abstract class ChessPiece {
     }
 
     public boolean isOwnedByCurrentPlayer() {
-        return this.getOwner() == this.getField().getBoard().getState().getPlayer();
+        return this.getOwner() == this.getField().getBoard().getGameState().getCurrentPlayer();
     }
 
     protected String getIconsDirectory() {
@@ -41,10 +52,6 @@ public abstract class ChessPiece {
         );
     }
 
-    public boolean isMovePossible(Move move) {
-        return this.getAllPossibleMoves().contains(move);
-    }
-
     public abstract Image getIcon();
     public abstract LinkedList<Move> getAllPossibleMoves();
     public void makeMove(Move move) {
@@ -56,4 +63,8 @@ public abstract class ChessPiece {
         endField.setPiece(startField.getPiece());
         startField.setPiece(null);
     }
+
+    protected Player owner;
+    protected Field field;
+    protected boolean alreadyMoved = false;
 }

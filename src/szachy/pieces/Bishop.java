@@ -1,13 +1,18 @@
 package szachy.pieces;
 
 import javafx.scene.image.Image;
-import szachy.*;
+import szachy.engine.*;
 
 import java.util.LinkedList;
 
 public class Bishop extends ChessPiece {
     public Bishop(Player player) {
         super(player);
+    }
+
+    @Override
+    public Type getType() {
+        return Type.BISHOP;
     }
 
     @Override
@@ -37,15 +42,15 @@ public class Bishop extends ChessPiece {
                     }
 
                     Field otherField = board.getField(otherPosition);
-                    if (otherField.isBusy()) {
+                    if (otherField.isOccupied()) {
                         if (otherField.getPiece().getOwner() != this.getOwner()) {
-                            moves.add(new Move(position, otherPosition, otherField.getPiece()));
+                            moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
                         }
 
                         break;
                     }
 
-                    moves.add(new Move(position, otherPosition, otherField.getPiece()));
+                    moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
                     currentDiffY += diffY;
                     currentDiffX += diffX;
                 }

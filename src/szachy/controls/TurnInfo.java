@@ -2,21 +2,19 @@ package szachy.controls;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import szachy.GameState;
-import szachy.Player;
+import szachy.engine.GameState;
+import szachy.engine.Player;
 
-public class TurnInfo extends Label {
+public class TurnInfo extends Label implements Control {
     private static final String WHITE_TURN = "Ruch białych";
     private static final String BLACK_TURN = "Ruch czarnych";
-    private GameState state;
 
-    public TurnInfo(GameState state) {
+    public TurnInfo() {
         super(WHITE_TURN);
-        this.state = state;
         this.setAlignment(Pos.CENTER);
     }
 
-    public void update() {
-        this.setText(this.state.getPlayer() == Player.WHITE ? WHITE_TURN : BLACK_TURN);
+    public void update(GameState state) {
+        this.setText(state.getCurrentPlayer() == Player.WHITE ? WHITE_TURN : BLACK_TURN);
     }
 }

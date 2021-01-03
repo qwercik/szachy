@@ -2,30 +2,39 @@
     -fx-background-radius: 0 !important;
 }
 
+
 .field--white {
     -fx-background-color: #dbcbc3;
-}
-
-.field--white:not(.field--highlight):hover {
-    -fx-background-color: #ecdcd4;
 }
 
 .field--black {
     -fx-background-color: #5f2f15;
 }
 
+
+.field--white:not(.field--highlight):hover {
+    -fx-background-color: #ecdcd4;
+}
+
 .field--black:not(.field--highlight):hover {
     -fx-background-color: #704026;
 }
 
-.field--active {
+
+.field--starting-point {
     -fx-background-color: #6fba4a;
 }
 
-.field--white.field--highlight {
+
+.field--white.field--destination {
     -fx-background-color: #f19b8f;
 }
 
-.field--black.field--highlight {
+.field--black.field--destination {
     -fx-background-color: #ce887e;
+}
+
+
+.field--attacked {
+    -fx-background-color: #ffffff;
 }

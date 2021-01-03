@@ -1,4 +1,4 @@
-package szachy;
+package szachy.engine;
 
 public class Position {
     private static final int BOARD_SIZE = 8;

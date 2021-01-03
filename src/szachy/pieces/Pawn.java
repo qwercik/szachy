@@ -1,12 +1,9 @@
 package szachy.pieces;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.stage.StageStyle;
-import szachy.*;
+import szachy.engine.*;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -14,6 +11,11 @@ import java.util.Optional;
 public class Pawn extends ChessPiece {
     public Pawn(Player owner) {
         super(owner);
+    }
+
+    @Override
+    public Type getType() {
+        return Type.PAWN;
     }
 
     @Override
@@ -37,13 +39,13 @@ public class Pawn extends ChessPiece {
         if (otherPosition != null) {
             Field otherField = board.getField(otherPosition);
             if (otherField.isFree()) {
-                moves.add(new Move(position, otherPosition, otherField.getPiece()));
+                moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
 
                 // It can be done only if the forward field is free
                 boolean pawnIsOnStartPosition = position.getRow() == (7 + diff) % 7;
                 otherPosition = position.transform(diff * 2, 0);
                 if (pawnIsOnStartPosition && board.getField(otherPosition).isFree()) {
-                    moves.add(new Move(position, otherPosition, board.getField(otherPosition).getPiece()));
+                    moves.add(new Move(position, this, otherPosition, board.getField(otherPosition).getPiece()));
                 }
             }
         }
@@ -52,8 +54,8 @@ public class Pawn extends ChessPiece {
             otherPosition = position.transform(diff, diffX);
             if (otherPosition != null) {
                 Field otherField = board.getField(otherPosition);
-                if (otherField.isBusy() && otherField.getPiece().getOwner() != this.getOwner()) {
-                    moves.add(new Move(position, otherPosition, otherField.getPiece()));
+                if (otherField.isOccupied() && otherField.getPiece().getOwner() != this.getOwner()) {
+                    moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
                 }
             }
         }

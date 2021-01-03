@@ -2,24 +2,21 @@ package szachy.controls;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import szachy.GameState;
+import szachy.engine.GameState;
 
-public class TakeBack extends Button {
-    private static final String title = "Cofnij ruch";
-    private GameState state;
-
-    public TakeBack(GameState state) {
+public class TakeBack extends Button implements Control {
+    public TakeBack()  {
         super(title);
-        this.state = state;
         this.setPadding(new Insets(10, 10, 10, 10));
-        this.update();
+        this.setDisable(true);
 
-        this.setOnAction(event -> {
-            state.takeBackMove();
-        });
+
+        this.setOnAction(event -> this.fireEvent(new szachy.events.TakeBack()));
     }
 
-    public void update() {
+    public void update(GameState state) {
         this.setDisable(!state.canTakeBack());
     }
+
+    private static final String title = "Cofnij ruch";
 }
