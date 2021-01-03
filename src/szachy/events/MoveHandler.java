@@ -21,9 +21,9 @@ public class MoveHandler extends Event {
         ControlPanel controlPanel = app.getControlPanel();
         ChessBoard board = state.getBoard();
 
-        if (this.end.getState() == Field.State.STARTING_POINT) {
+        if (this.end.getState().isStartingPoint()) {
             board.setAllFieldsStateDefault();
-        } else if (this.end.getState() == Field.State.DESTINATION) {
+        } else if (this.end.getState().isDestination()) {
             Field field = board.getActiveField();
             if (field != null) {
                 state.makeMove(new Move(
@@ -33,6 +33,7 @@ public class MoveHandler extends Event {
                         this.end.getPiece()
                 ));
 
+                this.handleCheckIfOccurred(board);
                 controlPanel.update(state);
                 board.setAllFieldsStateDefault();
             }
@@ -43,7 +44,21 @@ public class MoveHandler extends Event {
                 this.end.setState(Field.State.STARTING_POINT);
                 ChessPiece piece = this.end.getPiece();
                 for (Move move : piece.getAllPossibleMoves()) {
-                    board.getField(move.getEnd()).setState(Field.State.DESTINATION);
+                    board.getField(move.getEnd()).setState(Field.State.ATTACKED_FIELD);
+                }
+            }
+        }
+    }
+
+    private void handleCheckIfOccurred(ChessBoard board) {
+        for (Field[] row : board.getAllFields()) {
+            for (Field field : row) {
+                ChessPiece piece = field.getPiece();
+                if (piece != null && piece.getType() == ChessPiece.Type.KING) {
+                    if (board.isAttacked(field.getPosition())) {
+                        field.setState(Field.State.KING_UNDER_CHECK);
+                        return;
+                    }
                 }
             }
         }

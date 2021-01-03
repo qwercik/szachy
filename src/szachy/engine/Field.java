@@ -24,16 +24,24 @@ public class Field extends Button {
     public enum State {
         DEFAULT,
         STARTING_POINT,
-        DESTINATION,
-        ATTACKED;
+        KING_UNDER_CHECK,
+        ATTACKED_FIELD;
+
+        public boolean isStartingPoint() {
+            return this == STARTING_POINT;
+        }
+
+        public boolean isDestination() {
+            return this == KING_UNDER_CHECK || this == ATTACKED_FIELD;
+        }
 
         public String getCssClass() {
             if (this == STARTING_POINT) {
                 return "field--starting-point";
-            } else if (this == DESTINATION) {
+            } else if (this == ATTACKED_FIELD) {
                 return "field--destination";
-            } else if (this == ATTACKED) {
-                return "field--attacked";
+            } else if (this == KING_UNDER_CHECK) {
+                return "field--king-under-check";
             } else {
                 return null;
             }

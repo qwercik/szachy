@@ -35,6 +35,6 @@
 }
 
 
-.field--attacked {
-    -fx-background-color: #ffffff;
+.field--king-under-check {
+    -fx-background-color: #0000ff;
 }
