@@ -22,7 +22,7 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public void makeMove(Move move) {
+    public void makeMoveBackend(Move move) {
         ChessBoard board = this.getField().getBoard();
         Position oldKingPosition = this.getField().getPosition();
         Position newKingPosition = move.getEnd();
@@ -57,12 +57,12 @@ public class King extends ChessPiece {
             newKingField.setPiece(oldKingField.getPiece());
             oldKingField.setPiece(null);
         } else {
-            super.makeMove(move);
+            super.makeMoveBackend(move);
         }
     }
 
     @Override
-    public void takeBackMove(Move move) {
+    public void takeBackMoveBackend(Move move) {
         ChessBoard board = this.getField().getBoard();
         Position oldKingPosition = move.getStart();
         Position newKingPosition = move.getEnd();
@@ -97,7 +97,7 @@ public class King extends ChessPiece {
             oldKingField.setPiece(newKingField.getPiece());
             newKingField.setPiece(null);
         } else {
-            super.takeBackMove(move);
+            super.takeBackMoveBackend(move);
         }
     }
 
@@ -125,7 +125,7 @@ public class King extends ChessPiece {
             }
         }
 
-        if (!this.alreadyMoved) {
+        if (!this.hasAlreadyMoved()) {
             if (this.canCastle(-1)) {
                 moves.add(new Move(position, this, new Position(position.getRow(), position.getColumn() - 2), null));
             }

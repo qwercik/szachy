@@ -65,8 +65,8 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void makeMove(Move move) {
-        super.makeMove(move);
+    public void makeMoveBackend(Move move) {
+        super.makeMoveBackend(move);
 
         if (this.isBeingPromoted(move)) {
             this.handlePawnPromotion(move);
@@ -101,7 +101,7 @@ public class Pawn extends ChessPiece {
         while (true) {
             Optional<ButtonType> result = alert.showAndWait();
 
-            if (result.get() != null) {
+            if (result.isPresent()) {
                 if (result.get() == queen) {
                     endField.setPiece(new Queen(this.getOwner()));
                 } else if (result.get() == rook) {

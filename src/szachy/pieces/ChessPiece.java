@@ -52,19 +52,36 @@ public abstract class ChessPiece {
         );
     }
 
+    public void makeMove(Move move) {
+        this.makeMoveBackend(move);
+        this.movesHistory.addLast(move);
+    }
+
+    public void takeBackMove(Move move) {
+        this.takeBackMoveBackend(move);
+        this.movesHistory.removeLast();
+    }
+
+    public boolean hasAlreadyMoved() {
+        return !this.movesHistory.isEmpty();
+    }
+
+
     public abstract Image getIcon();
     public abstract LinkedList<Move> getAllPossibleMoves();
 
-    public void makeMove(Move move) {
+
+    // Default implementations of make move/take back
+    // For specific cases (as castling, for example) pieces can override them
+
+    protected void makeMoveBackend(Move move) {
         ChessBoard board = this.field.getBoard();
         Field endField = board.getField(move.getEnd());
         this.field.setPiece(null);
         endField.setPiece(this);
-
-        this.alreadyMoved = true;
     }
 
-    public void takeBackMove(Move move) {
+    protected void takeBackMoveBackend(Move move) {
         ChessBoard board = this.field.getBoard();
         Field startField = board.getField(move.getStart());
         Field endField = board.getField(move.getEnd());
@@ -73,11 +90,9 @@ public abstract class ChessPiece {
         startField.setPiece(this);
     }
 
-    public boolean hasAlreadyMoved() {
-        return this.alreadyMoved;
-    }
 
     protected Player owner;
     protected Field field;
-    protected boolean alreadyMoved = false;
+
+    private final LinkedList<Move> movesHistory = new LinkedList<>();
 }
