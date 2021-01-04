@@ -108,6 +108,27 @@ public class GameState {
         return false;
     }
 
+    public void handleCheckIfOccurred() {
+        Player potentiallyChecked = this.getCurrentPlayer();
+        for (Field[] row : this.getBoard().getAllFields()) {
+            for (Field field : row) {
+                ChessPiece piece = field.getPiece();
+                if (piece != null && piece.getType() == ChessPiece.Type.KING && piece.getOwner() == potentiallyChecked) {
+                    Player attacker = potentiallyChecked.opposite();
+                    if (this.isAttacked(field.getPosition(), attacker)) {
+                        field.setState(field.getState().withCheck(true));
+                    }
+
+                    return;
+                }
+            }
+        }
+    }
+
+    public void update() {
+        this.board.update();
+    }
+
     private final ChessBoard board;
     private final LinkedList<Move> moves = new LinkedList<Move>();
     private Player currentPlayer = Player.WHITE;

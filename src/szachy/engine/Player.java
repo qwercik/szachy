@@ -1,10 +1,7 @@
 package szachy.engine;
 
 import szachy.pieces.*;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public enum Player {
     WHITE, BLACK;
@@ -49,7 +46,6 @@ public enum Player {
     }
 
 
-
     public Player opposite() {
         return this == WHITE ? BLACK : WHITE;
     }
@@ -66,10 +62,10 @@ public enum Player {
         return this == WHITE ? "białe" : "czarne";
     }
 
-    private King king;
-    private ArrayList<Queen> queens = new ArrayList<>();
-    private ArrayList<Rook> rooks = new ArrayList<>();
-    private ArrayList<Knight> knights = new ArrayList<>();
-    private ArrayList<Bishop> bishops = new ArrayList<>();
-    private ArrayList<Pawn> pawns = new ArrayList<>();
+    private final King king;
+    private final ArrayList<Queen> queens = new ArrayList<>();
+    private final ArrayList<Rook> rooks = new ArrayList<>();
+    private final ArrayList<Knight> knights = new ArrayList<>();
+    private final ArrayList<Bishop> bishops = new ArrayList<>();
+    private final ArrayList<Pawn> pawns = new ArrayList<>();
 }

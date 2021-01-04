@@ -22,16 +22,16 @@ public class Field extends Button {
     }
 
     public Field(Type type, Position position, ChessBoard board) {
+        this.type = type;
         this.position = position;
         this.board = board;
-
-        this.getStylesheets().add("/assets/css/field.css");
-        this.getStyleClass().add("field");
-        this.getStyleClass().add(type.getCssClass());
 
         this.setPrefSize(Dimensions.FIELD_SIZE, Dimensions.FIELD_SIZE);
         this.setPadding(Insets.EMPTY);
         this.setBorder(Border.EMPTY);
+
+        this.getStylesheets().add("/assets/css/field.css");
+        this.update();
     }
 
     public void setPiece(ChessPiece piece) {
@@ -69,33 +69,29 @@ public class Field extends Button {
         return this.piece != null;
     }
 
-    public void updateState(FieldState newState) {
-        String cssClassToRemove = this.state.getCssClass();
-        if (cssClassToRemove != null) {
-            this.getStyleClass().remove(cssClassToRemove);
-        }
-
-        if (this.state.getType() == FieldState.Type.STARTING_POINT) {
-            this.getBoard().setActiveField(null);
-        }
-
-        this.state = newState;
-        String cssClassToAdd = this.state.getCssClass();
-        if (cssClassToAdd != null) {
-            this.getStyleClass().add(cssClassToAdd);
-        }
-
-        if (this.state.getType() == FieldState.Type.STARTING_POINT) {
-            this.getBoard().setActiveField(this);
-        }
+    public void setState(FieldState state) {
+        this.state = state;
     }
 
     public FieldState getState() {
         return this.state;
     }
 
+    public void update() {
+        this.getStyleClass().clear();
+        this.getStyleClass().add("field");
+        this.getStyleClass().add(this.type.getCssClass());
+        if (this.state.getCssClass() != null) {
+            this.getStyleClass().add(this.state.getCssClass());
+        }
+
+        if (this.state.getType() == FieldState.Type.STARTING_POINT) {
+            this.getBoard().setStartingPoint(this);
+        }
+    }
 
 
+    private final Type type;
     private FieldState state = new FieldState();
 
     private final Position position;

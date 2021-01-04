@@ -29,7 +29,7 @@ public class King extends ChessPiece {
         for (int diffY : new int[] {-1, 0, 1}) {
             for (int diffX : new int[] {-1, 0, 1}) {
                 if (diffX != 0 || diffY != 0) {
-                    Position otherPosition = position.transform(diffX, diffY);
+                    Position otherPosition = position.transform(diffY, diffX);
                     if (otherPosition == null) {
                         continue;
                     }

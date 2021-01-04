@@ -53,7 +53,7 @@ public class ChessBoard extends GridPane {
                     newState = newState.withCheck(false);
                 }
 
-                field.updateState(newState);
+                field.setState(newState);
             }
         }
     }
@@ -70,16 +70,24 @@ public class ChessBoard extends GridPane {
         return this.gameState;
     }
 
-    public void setActiveField(Field field) {
-        this.activeField = field;
+    public void setStartingPoint(Field field) {
+        this.startingPoint = field;
     }
 
-    public Field getActiveField() {
-        return this.activeField;
+    public Field getStartingPoint() {
+        return this.startingPoint;
+    }
+
+    public void update() {
+        for (Field[] row : this.getAllFields()) {
+            for (Field field : row) {
+                field.update();
+            }
+        }
     }
 
     private final GameState gameState;
     private final Field[][] fields = new Field[SIZE][SIZE];
-    private Field activeField;
+    private Field startingPoint;
 }
 

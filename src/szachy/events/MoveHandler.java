@@ -21,7 +21,7 @@ public class MoveHandler extends Event {
         if (this.end.getState().getType() == FieldState.Type.STARTING_POINT) {
             board.setAllFieldsStateDefault(false);
         } else if (this.end.getState().getType() == FieldState.Type.DESTINATION) {
-            Field field = board.getActiveField();
+            Field field = board.getStartingPoint();
             if (field != null) {
                 state.makeMove(new Move(
                         field.getPosition(),
@@ -32,39 +32,26 @@ public class MoveHandler extends Event {
 
                 controlPanel.update(state);
                 board.setAllFieldsStateDefault(true);
-                this.handleCheckIfOccurred(state, state.getCurrentPlayer());
             }
         } else {
             board.setAllFieldsStateDefault(false);
 
             if (this.end.isOccupied()) {
-                this.end.updateState(this.end.getState().withType(FieldState.Type.STARTING_POINT));
+                this.end.setState(this.end.getState().withType(FieldState.Type.STARTING_POINT));
                 ChessPiece piece = this.end.getPiece();
                 if (piece.getOwner() == state.getCurrentPlayer()) {
                     for (Move move : piece.getAllPossibleMoves()) {
                         Field field = board.getField(move.getEnd());
-                        field.updateState(field.getState().withType(FieldState.Type.DESTINATION));
+                        field.setState(field.getState().withType(FieldState.Type.DESTINATION));
                     }
                 }
             }
         }
+
+        state.update();
     }
 
-    private void handleCheckIfOccurred(GameState state, Player potentiallyChecked) {
-        for (Field[] row : state.getBoard().getAllFields()) {
-            for (Field field : row) {
-                ChessPiece piece = field.getPiece();
-                if (piece != null && piece.getType() == ChessPiece.Type.KING && piece.getOwner() == potentiallyChecked) {
-                    Player attacker = potentiallyChecked.opposite();
-                    if (state.isAttacked(field.getPosition(), attacker)) {
-                        field.updateState(field.getState().withCheck(true));
-                    }
 
-                    return;
-                }
-            }
-        }
-    }
 
     public static final EventType<MoveHandler> TYPE = new EventType<>(Event.ANY, "MAKE_MOVE");
     private final Field end;
