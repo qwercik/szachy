@@ -25,7 +25,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public LinkedList<Move> getAllPossibleMoves() {
+    public LinkedList<Move> getAllPossibleMovesBackend() {
         LinkedList<Move> moves = new LinkedList<>();
         ChessBoard board = field.getBoard();
         GameState state = board.getGameState();
@@ -58,10 +58,7 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        return moves
-                .stream()
-                .filter(state::verifyMoveForCheck)
-                .collect(Collectors.toCollection(LinkedList::new));
+        return moves;
     }
 
     @Override

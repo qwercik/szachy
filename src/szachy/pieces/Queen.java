@@ -22,7 +22,7 @@ public class Queen extends ChessPiece {
     }
 
     @Override
-    public LinkedList<Move> getAllPossibleMoves() {
+    public LinkedList<Move> getAllPossibleMovesBackend() {
         ChessBoard board = this.getField().getBoard();
         GameState state = board.getGameState();
         Position position = this.getField().getPosition();
@@ -57,9 +57,6 @@ public class Queen extends ChessPiece {
             }
         }
 
-        return moves
-                .stream()
-                .filter(state::verifyMoveForCheck)
-                .collect(Collectors.toCollection(LinkedList::new));
+        return moves;
     }
 }

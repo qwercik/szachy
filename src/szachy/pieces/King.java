@@ -102,7 +102,7 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public LinkedList<Move> getAllPossibleMoves() {
+    public LinkedList<Move> getAllPossibleMovesBackend() {
         Position position = this.getField().getPosition();
         ChessBoard board = this.getField().getBoard();
         LinkedList<Move> moves = new LinkedList<Move>();

@@ -1,12 +1,10 @@
 package szachy.pieces;
 
 import javafx.scene.image.Image;
-import szachy.engine.ChessBoard;
-import szachy.engine.Field;
-import szachy.engine.Move;
-import szachy.engine.Player;
+import szachy.engine.*;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public abstract class ChessPiece {
     public enum Type {
@@ -66,9 +64,16 @@ public abstract class ChessPiece {
         return !this.movesHistory.isEmpty();
     }
 
+    public LinkedList<Move> getAllPossibleMoves() {
+        GameState state= this.getField().getBoard().getGameState();
 
-    public abstract Image getIcon();
-    public abstract LinkedList<Move> getAllPossibleMoves();
+        return this.getAllPossibleMovesBackend()
+                .stream()
+                .filter(state::verifyMoveForCheck)
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+
 
 
     // Default implementations of make move/take back
@@ -90,6 +95,8 @@ public abstract class ChessPiece {
         startField.setPiece(this);
     }
 
+    public abstract LinkedList<Move> getAllPossibleMovesBackend();
+    public abstract Image getIcon();
 
     protected Player owner;
     protected Field field;
