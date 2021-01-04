@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import szachy.events.MoveHandler;
-import szachy.pieces.ChessPiece;
 
 public class ChessBoard extends GridPane {
     public static final int SIZE = 8;
@@ -18,7 +17,6 @@ public class ChessBoard extends GridPane {
             for (int x = 0; x < SIZE; x++) {
                 Field.Type fieldType = (x + y) % 2 == 0 ? Field.Type.WHITE : Field.Type.BLACK;
                 Field field = new Field(fieldType, new Position(y, x), this);
-
                 field.setOnAction(event -> this.fireEvent(new MoveHandler(field)));
 
                 this.add(field, x, y);
@@ -78,23 +76,6 @@ public class ChessBoard extends GridPane {
 
     public Field getActiveField() {
         return this.activeField;
-    }
-
-    public boolean isAttacked(Position position, Player attacker) {
-        for (Field[] row : this.fields) {
-            for (Field field : row) {
-                ChessPiece piece = field.getPiece();
-                if (piece != null && piece.getOwner() == attacker) {
-                    for (Move move : piece.getAllPossibleMoves()) {
-                        if (move.getEnd().equals(position)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
     }
 
     private final GameState gameState;

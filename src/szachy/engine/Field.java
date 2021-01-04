@@ -29,7 +29,7 @@ public class Field extends Button {
         this.getStyleClass().add("field");
         this.getStyleClass().add(type.getCssClass());
 
-        this.setPrefSize(Dimensions.FIELD, Dimensions.FIELD);
+        this.setPrefSize(Dimensions.FIELD_SIZE, Dimensions.FIELD_SIZE);
         this.setPadding(Insets.EMPTY);
         this.setBorder(Border.EMPTY);
     }
@@ -42,8 +42,8 @@ public class Field extends Button {
         } else {
             ImageView image = new ImageView(this.piece.getIcon());
             piece.setField(this);
-            image.setFitHeight(Dimensions.FIELD);
-            image.setFitWidth(Dimensions.FIELD);
+            image.setFitHeight(Dimensions.FIELD_SIZE);
+            image.setFitWidth(Dimensions.FIELD_SIZE);
 
             this.setGraphic(image);
         }

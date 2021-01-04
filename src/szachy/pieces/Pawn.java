@@ -7,6 +7,7 @@ import szachy.engine.*;
 
 import java.util.LinkedList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Pawn extends ChessPiece {
     public Pawn(Player owner) {
@@ -27,6 +28,7 @@ public class Pawn extends ChessPiece {
     public LinkedList<Move> getAllPossibleMoves() {
         LinkedList<Move> moves = new LinkedList<>();
         ChessBoard board = field.getBoard();
+        GameState state = board.getGameState();
         Position position = field.getPosition();
 
         int diff = this.getOwner() == Player.WHITE ? -1 : 1;
@@ -56,7 +58,10 @@ public class Pawn extends ChessPiece {
             }
         }
 
-        return moves;
+        return moves
+                .stream()
+                .filter(state::verifyMoveForCheck)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override

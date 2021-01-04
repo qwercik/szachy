@@ -32,7 +32,7 @@ public class MoveHandler extends Event {
 
                 controlPanel.update(state);
                 board.setAllFieldsStateDefault(true);
-                this.handleCheckIfOccurred(board, state.getCurrentPlayer());
+                this.handleCheckIfOccurred(state, state.getCurrentPlayer());
             }
         } else {
             board.setAllFieldsStateDefault(false);
@@ -50,13 +50,13 @@ public class MoveHandler extends Event {
         }
     }
 
-    private void handleCheckIfOccurred(ChessBoard board, Player potentiallyChecked) {
-        for (Field[] row : board.getAllFields()) {
+    private void handleCheckIfOccurred(GameState state, Player potentiallyChecked) {
+        for (Field[] row : state.getBoard().getAllFields()) {
             for (Field field : row) {
                 ChessPiece piece = field.getPiece();
                 if (piece != null && piece.getType() == ChessPiece.Type.KING && piece.getOwner() == potentiallyChecked) {
                     Player attacker = potentiallyChecked.opposite();
-                    if (board.isAttacked(field.getPosition(), attacker)) {
+                    if (state.isAttacked(field.getPosition(), attacker)) {
                         field.updateState(field.getState().withCheck(true));
                     }
 

@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import szachy.engine.*;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 public class Queen extends ChessPiece {
     public Queen(Player player) {
@@ -23,6 +24,7 @@ public class Queen extends ChessPiece {
     @Override
     public LinkedList<Move> getAllPossibleMoves() {
         ChessBoard board = this.getField().getBoard();
+        GameState state = board.getGameState();
         Position position = this.getField().getPosition();
         LinkedList<Move> moves = new LinkedList<Move>();
 
@@ -55,6 +57,9 @@ public class Queen extends ChessPiece {
             }
         }
 
-        return moves;
+        return moves
+                .stream()
+                .filter(state::verifyMoveForCheck)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 }
