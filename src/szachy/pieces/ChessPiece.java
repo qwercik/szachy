@@ -64,6 +64,10 @@ public abstract class ChessPiece {
         return !this.movesHistory.isEmpty();
     }
 
+    public LinkedList<Move> getMovesHistory() {
+        return this.movesHistory;
+    }
+
     public LinkedList<Move> getAllPossibleMoves() {
         GameState state= this.getField().getBoard().getGameState();
 

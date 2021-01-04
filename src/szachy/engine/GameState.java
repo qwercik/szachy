@@ -32,25 +32,29 @@ public class GameState {
         return this.currentPlayer;
     }
 
+    public LinkedList<Move> getMovesHistory() {
+        return this.movesHistory;
+    }
+
     public boolean canTakeBack() {
-        return !this.moves.isEmpty();
+        return !this.movesHistory.isEmpty();
     }
 
     public void makeMove(Move move) {
         ChessPiece piece = this.board.getField(move.getStart()).getPiece();
 
         piece.makeMove(move);
-        this.moves.addLast(move);
+        this.movesHistory.addLast(move);
         this.currentPlayer = this.currentPlayer.opposite();
     }
 
     public void takeBackMove() {
-        Move move = this.moves.getLast();
+        Move move = this.movesHistory.getLast();
 
         ChessPiece piece = this.board.getField(move.getEnd()).getPiece();
         piece.takeBackMove(move);
 
-        this.moves.removeLast();
+        this.movesHistory.removeLast();
         this.currentPlayer = this.currentPlayer.opposite();
     }
 
@@ -75,6 +79,7 @@ public class GameState {
     }
 
     public boolean isAttacked(Position position, Player attacker) {
+        return false;/*
         for (Field[] row : this.board.getAllFields()) {
             for (Field field : row) {
                 ChessPiece piece = field.getPiece();
@@ -88,7 +93,7 @@ public class GameState {
             }
         }
 
-        return false;
+        return false;*/
     }
 
 
@@ -108,6 +113,6 @@ public class GameState {
 
 
     private final ChessBoard board;
-    private final LinkedList<Move> moves = new LinkedList<Move>();
+    private final LinkedList<Move> movesHistory = new LinkedList<Move>();
     private Player currentPlayer = Player.WHITE;
 }

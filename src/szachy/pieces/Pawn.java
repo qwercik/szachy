@@ -32,6 +32,9 @@ public class Pawn extends ChessPiece {
         Position position = field.getPosition();
 
         int diff = this.getOwner() == Player.WHITE ? -1 : 1;
+        int myPawnStartRow = this.getOwner() == Player.WHITE ? 6 : 1;
+        int opponentPawnStartRow = this.getOwner() == Player.WHITE ? 1 : 6;
+        int enPassantRow = this.getOwner() == Player.WHITE ? 3 : 4;
 
         Position otherPosition = position.transform(diff, 0);
         if (otherPosition != null) {
@@ -40,7 +43,7 @@ public class Pawn extends ChessPiece {
                 moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
 
                 // It can be done only if the forward field is free
-                boolean pawnIsOnStartPosition = position.getRow() == (7 + diff) % 7;
+                boolean pawnIsOnStartPosition = position.getRow() == myPawnStartRow;
                 otherPosition = position.transform(diff * 2, 0);
                 if (pawnIsOnStartPosition && board.getField(otherPosition).isFree()) {
                     moves.add(new Move(position, this, otherPosition, board.getField(otherPosition).getPiece()));
@@ -54,6 +57,25 @@ public class Pawn extends ChessPiece {
                 Field otherField = board.getField(otherPosition);
                 if (otherField.isOccupied() && otherField.getPiece().getOwner() != this.getOwner()) {
                     moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
+                }
+            }
+
+            // Check en passant
+            if (position.getRow() == enPassantRow) {
+                otherPosition = position.transform(0, diffX);
+                if (otherPosition != null) {
+                    Field field = board.getField(otherPosition);
+                    if (field.isOccupied()) {
+                        ChessPiece piece = field.getPiece();
+                        if (piece.getType() == Type.PAWN) {
+                            Move lastMove = state.getMovesHistory().getLast();
+
+                            if (lastMove.getEnd().equals(otherPosition) && lastMove.getStart().getRow() == opponentPawnStartRow) {
+                                // Detected en passant
+                                moves.add(new Move(position, this, new Position(position.getRow() + diff, position.getColumn() + diffX), null));
+                            }
+                        }
+                    }
                 }
             }
         }
