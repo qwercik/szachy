@@ -45,15 +45,10 @@ public class ChessBoard extends GridPane {
         }
     }
 
-    public void setAllFieldsStateDefault(boolean resetChecks) {
+    public void reset() {
         for (Field[] row : this.fields) {
             for (Field field : row) {
-                FieldState newState = field.getState().withType(FieldState.Type.DEFAULT);
-                if (resetChecks) {
-                    newState = newState.withCheck(false);
-                }
-
-                field.setState(newState);
+                field.setState(new FieldState(FieldState.Type.DEFAULT, false));
             }
         }
     }

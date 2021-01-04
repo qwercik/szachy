@@ -19,7 +19,7 @@ public class MoveHandler extends Event {
         ChessBoard board = state.getBoard();
 
         if (this.end.getState().getType() == FieldState.Type.STARTING_POINT) {
-            board.setAllFieldsStateDefault(false);
+            board.reset();
         } else if (this.end.getState().getType() == FieldState.Type.DESTINATION) {
             Field field = board.getStartingPoint();
             if (field != null) {
@@ -31,10 +31,10 @@ public class MoveHandler extends Event {
                 ));
 
                 controlPanel.update(state);
-                board.setAllFieldsStateDefault(true);
+                board.reset();
             }
         } else {
-            board.setAllFieldsStateDefault(false);
+            board.reset();
 
             if (this.end.isOccupied()) {
                 this.end.setState(this.end.getState().withType(FieldState.Type.STARTING_POINT));

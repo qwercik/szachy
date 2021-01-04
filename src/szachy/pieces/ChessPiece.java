@@ -54,6 +54,7 @@ public abstract class ChessPiece {
 
     public abstract Image getIcon();
     public abstract LinkedList<Move> getAllPossibleMoves();
+
     public void makeMove(Move move) {
         ChessBoard board = this.field.getBoard();
         Field endField = board.getField(move.getEnd());
@@ -61,6 +62,19 @@ public abstract class ChessPiece {
         endField.setPiece(this);
 
         this.alreadyMoved = true;
+    }
+
+    public void takeBackMove(Move move) {
+        ChessBoard board = this.field.getBoard();
+        Field startField = board.getField(move.getStart());
+        Field endField = board.getField(move.getEnd());
+
+        endField.setPiece(move.getEndPiece());
+        startField.setPiece(this);
+    }
+
+    public boolean hasAlreadyMoved() {
+        return this.alreadyMoved;
     }
 
     protected Player owner;

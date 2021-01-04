@@ -26,10 +26,6 @@ public class Move {
         return this.endPiece;
     }
 
-    public Move getReversedMove() {
-        return new Move(this.end, this.endPiece, this.start, this.startPiece);
-    }
-
     private Position start;
     private ChessPiece startPiece;
     private Position end;

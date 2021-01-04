@@ -48,47 +48,30 @@ public class GameState {
         Move move = this.moves.getLast();
 
         ChessPiece piece = this.board.getField(move.getEnd()).getPiece();
-        piece.makeMove(move.getReversedMove());
-
-        this.board.getField(move.getEnd()).setPiece(move.getEndPiece());
+        piece.takeBackMove(move);
 
         this.moves.removeLast();
         this.currentPlayer = this.currentPlayer.opposite();
     }
 
     public boolean verifyMoveForCheck(Move move) {
+        return true;
+        /*
         ChessPiece piece = this.board.getField(move.getStart()).getPiece();
 
         piece.makeMove(move);
-        boolean result = !this.isPlayerChecked(this.getCurrentPlayer());
+        boolean result = !this.isCheck();
         piece.makeMove(move.getReversedMove());
         this.board.getField(move.getEnd()).setPiece(move.getEndPiece());
 
         return result;
+        */
     }
 
     public boolean isCheck() {
-        for (Field[] row : this.board.getAllFields()) {
-            for (Field field : row) {
-                if (field.getState().isCheck()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public boolean isPlayerChecked(Player checked) {
-        for (Field[] row : this.board.getAllFields()) {
-            for (Field field : row) {
-                if (field.getState().isCheck() && field.getPiece().getOwner() == checked) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        Player attacker = this.getCurrentPlayer().opposite();
+        Position kingPosition = this.currentPlayer.getKing().getField().getPosition();
+        return this.isAttacked(kingPosition, attacker);
     }
 
     public boolean isAttacked(Position position, Player attacker) {
@@ -108,26 +91,21 @@ public class GameState {
         return false;
     }
 
-    public void handleCheckIfOccurred() {
-        Player potentiallyChecked = this.getCurrentPlayer();
-        for (Field[] row : this.getBoard().getAllFields()) {
-            for (Field field : row) {
-                ChessPiece piece = field.getPiece();
-                if (piece != null && piece.getType() == ChessPiece.Type.KING && piece.getOwner() == potentiallyChecked) {
-                    Player attacker = potentiallyChecked.opposite();
-                    if (this.isAttacked(field.getPosition(), attacker)) {
-                        field.setState(field.getState().withCheck(true));
-                    }
-
-                    return;
-                }
-            }
-        }
-    }
 
     public void update() {
+        if (this.isCheck()) {
+            this.markKingAsChecked();
+        }
+
         this.board.update();
     }
+
+
+    private void markKingAsChecked() {
+        Field kingField = this.currentPlayer.getKing().getField();
+        kingField.setState(kingField.getState().withCheck(true));
+    }
+
 
     private final ChessBoard board;
     private final LinkedList<Move> moves = new LinkedList<Move>();
