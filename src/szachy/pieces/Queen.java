@@ -43,13 +43,13 @@ public class Queen extends ChessPiece {
                         Field otherField = board.getField(otherPosition);
                         if (otherField.isOccupied()) {
                             if (otherField.getPiece().getOwner() != this.getOwner()) {
-                                moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
+                                moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
                             }
 
                             break;
                         }
 
-                        moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
+                        moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
                         currentDiffX += diffX;
                         currentDiffY += diffY;
                     }

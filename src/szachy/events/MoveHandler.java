@@ -25,8 +25,8 @@ public class MoveHandler extends Event {
             if (field != null) {
                 state.makeMove(new Move(
                         field.getPosition(),
-                        field.getPiece(),
                         this.end.getPosition(),
+                        field.getPiece(),
                         this.end.getPiece()
                 ));
 

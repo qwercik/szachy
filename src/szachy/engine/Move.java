@@ -3,31 +3,31 @@ package szachy.engine;
 import szachy.pieces.ChessPiece;
 
 public class Move {
-    public Move(Position start, ChessPiece startPiece, Position end, ChessPiece endPiece) {
+    public Move(Position start, Position end, ChessPiece movedPiece, ChessPiece removedPiece) {
         this.start = start;
-        this.startPiece = startPiece;
         this.end = end;
-        this.endPiece = endPiece;
+        this.movedPiece = movedPiece;
+        this.removedPiece = removedPiece;
     }
 
     public Position getStart() {
         return this.start;
     }
 
-    public ChessPiece getStartPiece() {
-        return this.startPiece;
+    public ChessPiece getMovedPiece() {
+        return this.movedPiece;
     }
 
     public Position getEnd() {
         return this.end;
     }
 
-    public ChessPiece getEndPiece() {
-        return this.endPiece;
+    public ChessPiece getRemovedPiece() {
+        return this.removedPiece;
     }
 
-    private Position start;
-    private ChessPiece startPiece;
-    private Position end;
-    private ChessPiece endPiece;
+    private final Position start;
+    private final Position end;
+    private final ChessPiece movedPiece;
+    private final ChessPiece removedPiece;
 }

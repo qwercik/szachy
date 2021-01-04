@@ -95,8 +95,8 @@ public abstract class ChessPiece {
         Field startField = board.getField(move.getStart());
         Field endField = board.getField(move.getEnd());
 
-        endField.setPiece(move.getEndPiece());
-        startField.setPiece(this);
+        endField.setPiece(move.getRemovedPiece());
+        startField.setPiece(move.getMovedPiece());
     }
 
     public abstract LinkedList<Move> getAllPossibleMovesBackend();

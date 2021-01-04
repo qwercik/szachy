@@ -51,7 +51,7 @@ public class GameState {
     public void takeBackMove() {
         Move move = this.movesHistory.getLast();
 
-        ChessPiece piece = this.board.getField(move.getEnd()).getPiece();
+        ChessPiece piece = move.getMovedPiece();
         piece.takeBackMove(move);
 
         this.movesHistory.removeLast();

@@ -41,7 +41,7 @@ public class Knight extends ChessPiece {
                         continue;
                     }
 
-                    moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
+                    moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
                 }
             }
         }

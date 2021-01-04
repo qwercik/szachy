@@ -120,18 +120,18 @@ public class King extends ChessPiece {
                         continue;
                     }
 
-                    moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
+                    moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
                 }
             }
         }
 
         if (!this.hasAlreadyMoved()) {
             if (this.canCastle(-1)) {
-                moves.add(new Move(position, this, new Position(position.getRow(), position.getColumn() - 2), null));
+                moves.add(new Move(position, new Position(position.getRow(), position.getColumn() - 2), this, null));
             }
 
             if (this.canCastle(1)) {
-                moves.add(new Move(position, this, new Position(position.getRow(), position.getColumn() + 2), null));
+                moves.add(new Move(position, new Position(position.getRow(), position.getColumn() + 2), this, null));
             }
         }
 

@@ -7,7 +7,6 @@ import szachy.engine.*;
 
 import java.util.LinkedList;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Pawn extends ChessPiece {
     public Pawn(Player owner) {
@@ -40,13 +39,13 @@ public class Pawn extends ChessPiece {
         if (otherPosition != null) {
             Field otherField = board.getField(otherPosition);
             if (otherField.isFree()) {
-                moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
+                moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
 
                 // It can be done only if the forward field is free
                 boolean pawnIsOnStartPosition = position.getRow() == myPawnStartRow;
                 otherPosition = position.transform(diff * 2, 0);
                 if (pawnIsOnStartPosition && board.getField(otherPosition).isFree()) {
-                    moves.add(new Move(position, this, otherPosition, board.getField(otherPosition).getPiece()));
+                    moves.add(new Move(position, otherPosition, this, board.getField(otherPosition).getPiece()));
                 }
             }
         }
@@ -56,7 +55,7 @@ public class Pawn extends ChessPiece {
             if (otherPosition != null) {
                 Field otherField = board.getField(otherPosition);
                 if (otherField.isOccupied() && otherField.getPiece().getOwner() != this.getOwner()) {
-                    moves.add(new Move(position, this, otherPosition, otherField.getPiece()));
+                    moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
                 }
             }
 
@@ -72,7 +71,7 @@ public class Pawn extends ChessPiece {
 
                             if (lastMove.getEnd().equals(otherPosition) && lastMove.getStart().getRow() == opponentPawnStartRow) {
                                 // Detected en passant
-                                moves.add(new Move(position, this, new Position(position.getRow() + diff, position.getColumn() + diffX), null));
+                                moves.add(new Move(position, new Position(position.getRow() + diff, position.getColumn() + diffX), this, piece));
                             }
                         }
                     }
@@ -85,11 +84,36 @@ public class Pawn extends ChessPiece {
 
     @Override
     public void makeMoveBackend(Move move) {
+        ChessBoard board = this.getField().getBoard();
+
+        System.out.println(move.getRemovedPiece());
+
+        // En passant
+        int diffX = move.getEnd().getColumn() - move.getStart().getColumn();
+        if (board.getField(move.getEnd()).isFree() && diffX != 0) {
+            Position positionToRemove = move.getStart().transform(0, diffX);
+            board.getField(positionToRemove).setPiece(null);
+        }
+
         super.makeMoveBackend(move);
 
         if (this.isBeingPromoted(move)) {
             this.handlePawnPromotion(move);
         }
+    }
+
+    @Override
+    public void takeBackMoveBackend(Move move) {
+        ChessBoard board = this.getField().getBoard();
+
+        // En passant
+        int diffX = move.getEnd().getColumn() - move.getStart().getColumn();
+        if (board.getField(move.getEnd()).isFree() && diffX != 0) {
+            Field field = board.getField(move.getStart().transform(0, diffX));
+            field.setPiece(move.getRemovedPiece());
+        }
+
+        super.takeBackMoveBackend(move);
     }
 
     public boolean isBeingPromoted(Move move) {
@@ -100,17 +124,17 @@ public class Pawn extends ChessPiece {
     public void handlePawnPromotion(Move move) {
         Field endField = this.getField().getBoard().getField(move.getEnd());
 
-        ButtonType queen = new ButtonType("Hetman");
-        ButtonType rook = new ButtonType("Wieża");
-        ButtonType knight = new ButtonType("Skoczek");
-        ButtonType bishop = new ButtonType("Goniec");
+        ButtonType queenChosen = new ButtonType("Hetman");
+        ButtonType rookChosen = new ButtonType("Wieża");
+        ButtonType knightChosen = new ButtonType("Skoczek");
+        ButtonType bishopChosen = new ButtonType("Goniec");
 
         Alert alert = new Alert(
                 Alert.AlertType.INFORMATION, "Promocja piona",
-                queen,
-                rook,
-                knight,
-                bishop
+                queenChosen,
+                rookChosen,
+                knightChosen,
+                bishopChosen
         );
         alert.setTitle("Promocja piona");
         alert.setHeaderText("Promocja piona");
@@ -121,14 +145,22 @@ public class Pawn extends ChessPiece {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent()) {
-                if (result.get() == queen) {
-                    endField.setPiece(new Queen(this.getOwner()));
-                } else if (result.get() == rook) {
-                    endField.setPiece(new Rook(this.getOwner()));
-                } else if (result.get() == knight) {
-                    endField.setPiece(new Knight(this.getOwner()));
+                if (result.get() == queenChosen) {
+                    Queen queen = new Queen(this.getOwner());
+                    this.getOwner().getQueens().add(queen);
+                    endField.setPiece(queen);
+                } else if (result.get() == rookChosen) {
+                    Rook rook = new Rook(this.getOwner());
+                    this.getOwner().getRooks().add(rook);
+                    endField.setPiece(rook);
+                } else if (result.get() == knightChosen) {
+                    Knight knight = new Knight(this.getOwner());
+                    this.getOwner().getKnights().add(knight);
+                    endField.setPiece(knight);
                 } else {
-                    endField.setPiece(new Bishop(this.getOwner()));
+                    Bishop bishop = new Bishop(this.getOwner());
+                    this.getOwner().getBishops().add(bishop);
+                    endField.setPiece(bishop);
                 }
 
                 break;
