@@ -9,7 +9,7 @@ public class OfferDraw extends Button implements Control {
         super(TEXT);
         this.setPadding(new Insets(10, 10, 10, 10));
 
-        this.setOnAction(event -> this.fireEvent(new szachy.events.OfferDraw()));
+        this.setOnAction(event -> this.fireEvent(new szachy.events.EndGame(null)));
     }
 
     @Override

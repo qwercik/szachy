@@ -1,6 +1,6 @@
 package szachy.engine;
 
-import javafx.geometry.Pos;
+import szachy.events.EndGame;
 import szachy.pieces.*;
 
 import java.util.LinkedList;
@@ -82,13 +82,40 @@ public class GameState {
                 Queen.isAttacking(this, position, attacker);
     }
 
+    private boolean isAnyMovePossible() {
+        for (Field[] row : this.getBoard().getAllFields()) {
+            for (Field field : row) {
+                if (field.isOccupied()) {
+                    ChessPiece piece = field.getPiece();
+                    if (piece.getOwner() == this.getCurrentPlayer()) {
+                        if (!piece.getAllPossibleDestinations().isEmpty()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
 
     public void update() {
         if (this.isCheck()) {
             this.markKingAsChecked();
-        }
 
-        this.board.update();
+            this.board.update();
+
+            if (!this.isAnyMovePossible()) {
+                this.getBoard().fireEvent(new EndGame(this.getCurrentPlayer().opposite()));
+            }
+        } else {
+            this.board.update();
+
+            if (!this.isAnyMovePossible()) {
+                this.getBoard().fireEvent(new EndGame(null));
+            }
+        }
     }
 
 

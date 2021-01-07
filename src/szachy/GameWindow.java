@@ -82,7 +82,6 @@ public class GameWindow extends Application {
     private void addEventHandlers(Node node) {
         node.addEventHandler(EndGame.TYPE, event -> event.handle(this));
         node.addEventHandler(GiveUp.TYPE, event -> event.handle(this));
-        node.addEventHandler(OfferDraw.TYPE, event -> event.handle(this));
         node.addEventHandler(TakeBack.TYPE, event -> event.handle(this));
         node.addEventHandler(MoveHandler.TYPE, event -> event.handle(this));
     }
