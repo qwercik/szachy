@@ -135,13 +135,11 @@ public class King extends ChessPiece {
 
         if (!this.hasAlreadyMoved()) {
             if (this.canCastle(-1)) {
-                Position otherPosition = new Position(position.getRow(), position.getColumn() - 2);
-                destinations.add(otherPosition);
+                destinations.add(new Position(position.getRow(), position.getColumn() - 2));
             }
 
             if (this.canCastle(1)) {
-                Position otherPosition = new Position(position.getRow(), position.getColumn() + 2);
-                destinations.add(otherPosition);
+                destinations.add(new Position(position.getRow(), position.getColumn() + 2));
             }
         }
 
@@ -150,6 +148,7 @@ public class King extends ChessPiece {
 
     private boolean canCastle(int direction) {
         ChessBoard board = this.getField().getBoard();
+        GameState state = board.getGameState();
         Position position = this.getField().getPosition();
 
         Position shouldContainRookPosition = new Position(position.getRow(), direction > 0 ? 7 : 0);
@@ -170,7 +169,7 @@ public class King extends ChessPiece {
                 break;
             }
 
-            if (board.getField(position).isOccupied()) {
+            if (board.getField(position).isOccupied() || state.isAttacked(position, this.getOwner().opposite())) {
                 return false;
             }
         }
