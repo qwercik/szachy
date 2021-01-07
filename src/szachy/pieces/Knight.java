@@ -1,5 +1,6 @@
 package szachy.pieces;
 
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import szachy.engine.*;
 
@@ -21,11 +22,11 @@ public class Knight extends ChessPiece {
     }
 
     @Override
-    public LinkedList<Move> getAllPossibleMovesBackend() {
+    public LinkedList<Position> getAllPossibleDestinationsBackend() {
         Position position = this.getField().getPosition();
         ChessBoard board = this.getField().getBoard();
         GameState state = board.getGameState();
-        LinkedList<Move> moves = new LinkedList<Move>();
+        LinkedList<Position> destinations = new LinkedList<Position>();
 
         for (int diffY : new int[] {-2, -1, 1, 2}) {
             for (int diffX : new int[] {-2, -1, 1, 2}) {
@@ -40,11 +41,11 @@ public class Knight extends ChessPiece {
                         continue;
                     }
 
-                    moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
+                    destinations.add(otherPosition);
                 }
             }
         }
 
-        return moves;
+        return destinations;
     }
 }

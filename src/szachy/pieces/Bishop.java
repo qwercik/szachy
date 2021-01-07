@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import szachy.engine.*;
 
 import java.util.LinkedList;
-import java.util.stream.Collectors;
 
 public class Bishop extends ChessPiece {
     public Bishop(Player player) {
@@ -22,11 +21,10 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
-    public LinkedList<Move> getAllPossibleMovesBackend() {
+    public LinkedList<Position> getAllPossibleDestinationsBackend() {
         Position position = this.getField().getPosition();
         ChessBoard board = this.getField().getBoard();
-        GameState state = board.getGameState();
-        LinkedList<Move> moves = new LinkedList<Move>();
+        LinkedList<Position> destinations = new LinkedList<Position>();
 
         for (int diffY : new int[] {-1, 1}) {
             for (int diffX : new int[] {-1, 1}) {
@@ -42,19 +40,19 @@ public class Bishop extends ChessPiece {
                     Field otherField = board.getField(otherPosition);
                     if (otherField.isOccupied()) {
                         if (otherField.getPiece().getOwner() != this.getOwner()) {
-                            moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
+                            destinations.add(otherPosition);
                         }
 
                         break;
                     }
 
-                    moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
+                    destinations.add(otherPosition);
                     currentDiffY += diffY;
                     currentDiffX += diffX;
                 }
             }
         }
 
-        return moves;
+        return destinations;
     }
 }

@@ -39,10 +39,10 @@ public class GameState {
         return !this.movesHistory.isEmpty();
     }
 
-    public void makeMove(Move move) {
-        ChessPiece piece = this.board.getField(move.getMovedPieceStartPosition()).getPiece();
+    public void makeMove(Position endPosition) {
+        ChessPiece piece = this.board.getStartingPoint().getPiece();
 
-        piece.makeMove(move);
+        Move move = piece.makeMove(endPosition);
         this.movesHistory.addLast(move);
         this.currentPlayer = this.currentPlayer.opposite();
     }

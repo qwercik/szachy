@@ -1,5 +1,6 @@
 package szachy.pieces;
 
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import szachy.engine.*;
 
@@ -21,10 +22,10 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public void makeMoveBackend(Move move) {
+    public Move makeMoveBackend(Position destination) {
         ChessBoard board = this.getField().getBoard();
         Position oldKingPosition = this.getField().getPosition();
-        Position newKingPosition = move.getMovedPieceEndPosition();
+        Position newKingPosition = destination;
 
         Field oldKingField = board.getField(oldKingPosition);
         Field newKingField = board.getField(newKingPosition);
@@ -37,11 +38,15 @@ public class King extends ChessPiece {
             Field oldRookField = board.getField(oldRookPosition);
             Field newRookField = board.getField(newRookPosition);
 
+            Move move = new Move(oldKingPosition, newKingPosition, oldKingField.getPiece(), null, newKingPosition);
+
             newRookField.setPiece(oldRookField.getPiece());
             oldRookField.setPiece(null);
 
             newKingField.setPiece(oldKingField.getPiece());
             oldKingField.setPiece(null);
+
+            return move;
         } else if (newKingPosition.getColumn() - oldKingPosition.getColumn() == 2) {
             // Castle right
             Position oldRookPosition = new Position(oldKingPosition.getRow(), 7);
@@ -50,13 +55,17 @@ public class King extends ChessPiece {
             Field oldRookField = board.getField(oldRookPosition);
             Field newRookField = board.getField(newRookPosition);
 
+            Move move = new Move(oldKingPosition, newKingPosition, oldKingField.getPiece(), null, newKingPosition);
+
             newRookField.setPiece(oldRookField.getPiece());
             oldRookField.setPiece(null);
 
             newKingField.setPiece(oldKingField.getPiece());
             oldKingField.setPiece(null);
+
+            return move;
         } else {
-            super.makeMoveBackend(move);
+            return super.makeMoveBackend(destination);
         }
     }
 
@@ -101,10 +110,10 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public LinkedList<Move> getAllPossibleMovesBackend() {
+    public LinkedList<Position> getAllPossibleDestinationsBackend() {
         Position position = this.getField().getPosition();
         ChessBoard board = this.getField().getBoard();
-        LinkedList<Move> moves = new LinkedList<Move>();
+        LinkedList<Position> destinations = new LinkedList<Position>();
 
         for (int diffY : new int[] {-1, 0, 1}) {
             for (int diffX : new int[] {-1, 0, 1}) {
@@ -119,7 +128,7 @@ public class King extends ChessPiece {
                         continue;
                     }
 
-                    moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
+                    destinations.add(otherPosition);
                 }
             }
         }
@@ -127,16 +136,16 @@ public class King extends ChessPiece {
         if (!this.hasAlreadyMoved()) {
             if (this.canCastle(-1)) {
                 Position otherPosition = new Position(position.getRow(), position.getColumn() - 2);
-                moves.add(new Move(position, otherPosition, this, null, otherPosition));
+                destinations.add(otherPosition);
             }
 
             if (this.canCastle(1)) {
                 Position otherPosition = new Position(position.getRow(), position.getColumn() + 2);
-                moves.add(new Move(position, otherPosition, this, null, otherPosition));
+                destinations.add(otherPosition);
             }
         }
 
-        return moves;
+        return destinations;
     }
 
     private boolean canCastle(int direction) {

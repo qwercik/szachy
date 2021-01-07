@@ -50,9 +50,11 @@ public abstract class ChessPiece {
         );
     }
 
-    public void makeMove(Move move) {
-        this.makeMoveBackend(move);
+    public Move makeMove(Position endPosition) {
+        Move move = this.makeMoveBackend(endPosition);
         this.movesHistory.addLast(move);
+
+        return move;
     }
 
     public void takeBackMove(Move move) {
@@ -68,12 +70,12 @@ public abstract class ChessPiece {
         return this.movesHistory;
     }
 
-    public LinkedList<Move> getAllPossibleMoves() {
-        GameState state= this.getField().getBoard().getGameState();
+    public LinkedList<Position> getAllPossibleDestinations() {
+        GameState state = this.getField().getBoard().getGameState();
 
-        return this.getAllPossibleMovesBackend()
+        return this.getAllPossibleDestinationsBackend()
                 .stream()
-                .filter(state::verifyMoveForCheck)
+                //.filter(state::verifyMoveForCheck)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
 
@@ -83,23 +85,36 @@ public abstract class ChessPiece {
     // Default implementations of make move/take back
     // For specific cases (as castling, for example) pieces can override them
 
-    protected void makeMoveBackend(Move move) {
+    protected Move makeMoveBackend(Position endPosition) {
         ChessBoard board = this.field.getBoard();
-        Field endField = board.getField(move.getMovedPieceEndPosition());
+        Field endField = board.getField(endPosition);
+
+        Move move = new Move(
+                this.field.getPosition(),
+                endPosition,
+                this,
+                endField.getPiece(),
+                endPosition
+        );
+
         this.field.setPiece(null);
         endField.setPiece(this);
+
+        return move;
     }
 
     protected void takeBackMoveBackend(Move move) {
         ChessBoard board = this.field.getBoard();
         Field startField = board.getField(move.getMovedPieceStartPosition());
+        Field endField = board.getField(move.getMovedPieceEndPosition());
         Field removedPieceField = board.getField(move.getRemovedPiecePosition());
 
+        endField.setPiece(null);
         removedPieceField.setPiece(move.getRemovedPiece());
         startField.setPiece(move.getMovedPiece());
     }
 
-    public abstract LinkedList<Move> getAllPossibleMovesBackend();
+    public abstract LinkedList<Position> getAllPossibleDestinationsBackend();
     public abstract Image getIcon();
 
     protected Player owner;
