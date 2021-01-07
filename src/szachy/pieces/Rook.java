@@ -43,13 +43,13 @@ public class Rook extends ChessPiece {
                         Field otherField = board.getField(otherPosition);
                         if (otherField.isOccupied()) {
                             if (otherField.getPiece().getOwner() != this.getOwner()) {
-                                moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
+                                moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
                             }
 
                             break;
                         }
 
-                        moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
+                        moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
                         currentDiffX += diffX;
                         currentDiffY += diffY;
                     }

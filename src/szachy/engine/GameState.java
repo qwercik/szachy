@@ -1,6 +1,5 @@
 package szachy.engine;
 
-import javafx.util.Pair;
 import szachy.pieces.*;
 
 import java.util.LinkedList;
@@ -41,7 +40,7 @@ public class GameState {
     }
 
     public void makeMove(Move move) {
-        ChessPiece piece = this.board.getField(move.getStart()).getPiece();
+        ChessPiece piece = this.board.getField(move.getMovedPieceStartPosition()).getPiece();
 
         piece.makeMove(move);
         this.movesHistory.addLast(move);

@@ -1,6 +1,5 @@
 package szachy.pieces;
 
-import com.sun.javafx.application.ParametersImpl;
 import javafx.scene.image.Image;
 import szachy.engine.*;
 
@@ -25,7 +24,7 @@ public class King extends ChessPiece {
     public void makeMoveBackend(Move move) {
         ChessBoard board = this.getField().getBoard();
         Position oldKingPosition = this.getField().getPosition();
-        Position newKingPosition = move.getEnd();
+        Position newKingPosition = move.getMovedPieceEndPosition();
 
         Field oldKingField = board.getField(oldKingPosition);
         Field newKingField = board.getField(newKingPosition);
@@ -64,8 +63,8 @@ public class King extends ChessPiece {
     @Override
     public void takeBackMoveBackend(Move move) {
         ChessBoard board = this.getField().getBoard();
-        Position oldKingPosition = move.getStart();
-        Position newKingPosition = move.getEnd();
+        Position oldKingPosition = move.getMovedPieceStartPosition();
+        Position newKingPosition = move.getMovedPieceEndPosition();
 
         Field oldKingField = board.getField(oldKingPosition);
         Field newKingField = board.getField(newKingPosition);
@@ -120,18 +119,20 @@ public class King extends ChessPiece {
                         continue;
                     }
 
-                    moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
+                    moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
                 }
             }
         }
 
         if (!this.hasAlreadyMoved()) {
             if (this.canCastle(-1)) {
-                moves.add(new Move(position, new Position(position.getRow(), position.getColumn() - 2), this, null));
+                Position otherPosition = new Position(position.getRow(), position.getColumn() - 2);
+                moves.add(new Move(position, otherPosition, this, null, otherPosition));
             }
 
             if (this.canCastle(1)) {
-                moves.add(new Move(position, new Position(position.getRow(), position.getColumn() + 2), this, null));
+                Position otherPosition = new Position(position.getRow(), position.getColumn() + 2);
+                moves.add(new Move(position, otherPosition, this, null, otherPosition));
             }
         }
 

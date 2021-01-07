@@ -39,13 +39,13 @@ public class Pawn extends ChessPiece {
         if (otherPosition != null) {
             Field otherField = board.getField(otherPosition);
             if (otherField.isFree()) {
-                moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
+                moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
 
                 // It can be done only if the forward field is free
                 boolean pawnIsOnStartPosition = position.getRow() == myPawnStartRow;
                 otherPosition = position.transform(diff * 2, 0);
                 if (pawnIsOnStartPosition && board.getField(otherPosition).isFree()) {
-                    moves.add(new Move(position, otherPosition, this, board.getField(otherPosition).getPiece()));
+                    moves.add(new Move(position, otherPosition, this, board.getField(otherPosition).getPiece(), otherPosition));
                 }
             }
         }
@@ -55,7 +55,7 @@ public class Pawn extends ChessPiece {
             if (otherPosition != null) {
                 Field otherField = board.getField(otherPosition);
                 if (otherField.isOccupied() && otherField.getPiece().getOwner() != this.getOwner()) {
-                    moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
+                    moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
                 }
             }
 
@@ -69,9 +69,10 @@ public class Pawn extends ChessPiece {
                         if (piece.getType() == Type.PAWN) {
                             Move lastMove = state.getMovesHistory().getLast();
 
-                            if (lastMove.getEnd().equals(otherPosition) && lastMove.getStart().getRow() == opponentPawnStartRow) {
+                            if (lastMove.getMovedPieceEndPosition().equals(otherPosition) && lastMove.getMovedPieceStartPosition().getRow() == opponentPawnStartRow) {
                                 // Detected en passant
-                                moves.add(new Move(position, new Position(position.getRow() + diff, position.getColumn() + diffX), this, piece));
+                                Position newPawnPosition = new Position(position.getRow() + diff, position.getColumn() + diffX);
+                                moves.add(new Move(position, newPawnPosition, this, piece, otherPosition));
                             }
                         }
                     }
@@ -86,12 +87,10 @@ public class Pawn extends ChessPiece {
     public void makeMoveBackend(Move move) {
         ChessBoard board = this.getField().getBoard();
 
-        System.out.println(move.getRemovedPiece());
-
         // En passant
-        int diffX = move.getEnd().getColumn() - move.getStart().getColumn();
-        if (board.getField(move.getEnd()).isFree() && diffX != 0) {
-            Position positionToRemove = move.getStart().transform(0, diffX);
+        int diffX = move.getMovedPieceEndPosition().getColumn() - move.getMovedPieceStartPosition().getColumn();
+        if (board.getField(move.getMovedPieceEndPosition()).isFree() && diffX != 0) {
+            Position positionToRemove = move.getMovedPieceStartPosition().transform(0, diffX);
             board.getField(positionToRemove).setPiece(null);
         }
 
@@ -102,15 +101,26 @@ public class Pawn extends ChessPiece {
         }
     }
 
+    private void wypisz(Position pozycja) {
+        System.out.println(String.format("(%d, %d)", pozycja.getRow(), pozycja.getColumn()));
+    }
+
     @Override
     public void takeBackMoveBackend(Move move) {
+        System.out.println();
+        wypisz(move.getMovedPieceStartPosition());
+        wypisz(move.getMovedPieceEndPosition());
+        wypisz(move.getRemovedPiecePosition());
+        System.out.println();
+
+
         ChessBoard board = this.getField().getBoard();
 
-        // En passant
-        int diffX = move.getEnd().getColumn() - move.getStart().getColumn();
-        if (board.getField(move.getEnd()).isFree() && diffX != 0) {
-            Field field = board.getField(move.getStart().transform(0, diffX));
-            field.setPiece(move.getRemovedPiece());
+        // Detect en passant
+        Field removedPieceField = board.getField(move.getRemovedPiecePosition());
+
+        if (removedPieceField.isFree()) {
+            removedPieceField.setPiece(move.getRemovedPiece());
         }
 
         super.takeBackMoveBackend(move);
@@ -118,11 +128,11 @@ public class Pawn extends ChessPiece {
 
     public boolean isBeingPromoted(Move move) {
         int lastRow = this.getOwner() == Player.WHITE ? 0 : 7;
-        return move.getEnd().getRow() == lastRow;
+        return move.getMovedPieceEndPosition().getRow() == lastRow;
     }
 
     public void handlePawnPromotion(Move move) {
-        Field endField = this.getField().getBoard().getField(move.getEnd());
+        Field endField = this.getField().getBoard().getField(move.getMovedPieceEndPosition());
 
         ButtonType queenChosen = new ButtonType("Hetman");
         ButtonType rookChosen = new ButtonType("Wieża");

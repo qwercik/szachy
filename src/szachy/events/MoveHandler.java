@@ -27,7 +27,8 @@ public class MoveHandler extends Event {
                         field.getPosition(),
                         this.end.getPosition(),
                         field.getPiece(),
-                        this.end.getPiece()
+                        this.end.getPiece(),
+                        this.end.getPosition()
                 ));
 
                 controlPanel.update(state);
@@ -41,7 +42,7 @@ public class MoveHandler extends Event {
                 ChessPiece piece = this.end.getPiece();
                 if (piece.getOwner() == state.getCurrentPlayer()) {
                     for (Move move : piece.getAllPossibleMoves()) {
-                        Field field = board.getField(move.getEnd());
+                        Field field = board.getField(move.getMovedPieceEndPosition());
                         field.setState(field.getState().withType(FieldState.Type.DESTINATION));
                     }
                 }

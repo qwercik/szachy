@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import szachy.engine.*;
 
 import java.util.LinkedList;
-import java.util.stream.Collectors;
 
 public class Knight extends ChessPiece {
     public Knight(Player player) {
@@ -41,7 +40,7 @@ public class Knight extends ChessPiece {
                         continue;
                     }
 
-                    moves.add(new Move(position, otherPosition, this, otherField.getPiece()));
+                    moves.add(new Move(position, otherPosition, this, otherField.getPiece(), otherPosition));
                 }
             }
         }

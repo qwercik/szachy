@@ -85,17 +85,17 @@ public abstract class ChessPiece {
 
     protected void makeMoveBackend(Move move) {
         ChessBoard board = this.field.getBoard();
-        Field endField = board.getField(move.getEnd());
+        Field endField = board.getField(move.getMovedPieceEndPosition());
         this.field.setPiece(null);
         endField.setPiece(this);
     }
 
     protected void takeBackMoveBackend(Move move) {
         ChessBoard board = this.field.getBoard();
-        Field startField = board.getField(move.getStart());
-        Field endField = board.getField(move.getEnd());
+        Field startField = board.getField(move.getMovedPieceStartPosition());
+        Field removedPieceField = board.getField(move.getRemovedPiecePosition());
 
-        endField.setPiece(move.getRemovedPiece());
+        removedPieceField.setPiece(move.getRemovedPiece());
         startField.setPiece(move.getMovedPiece());
     }
 
