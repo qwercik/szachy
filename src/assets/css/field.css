@@ -8,14 +8,14 @@
     -fx-background-color: #dbcbc3;
 }
 .field--white:hover {
-    -fx-background-color: #ecdcd4;
+    -fx-background-color: #ecdcd4 !important;
 }
 
 .field--black {
     -fx-background-color: #5f2f15;
 }
 .field--black:hover {
-    -fx-background-color: #704026;
+    -fx-background-color: #704026 !important;
 }
 
 
@@ -24,20 +24,28 @@
     -fx-background-color: #6fba4a;
 }
 .field--starting-point:hover {
-    -fx-background-color: #80cb5b;
+    -fx-background-color: #80cb5b !important;
 }
 
 .field--white.field--destination {
     -fx-background-color: #f19b8f;
 }
 
+.field--white.field--destination:hover {
+    -fx-background-color: #ffaaaa !important;
+}
+
 .field--black.field--destination {
     -fx-background-color: #ce887e;
+}
+
+.field--black.field--destination:hover {
+    -fx-background-color: #eeaa99 !important;
 }
 
 .field--check {
     -fx-background-color: #0000aa;
 }
 .field--check:hover {
-    -fx-background-color: #0000bb;
+    -fx-background-color: #0000bb !important;
 }

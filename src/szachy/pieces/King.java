@@ -151,6 +151,10 @@ public class King extends ChessPiece {
         GameState state = board.getGameState();
         Position position = this.getField().getPosition();
 
+        if (state.isCheck()) {
+            return false;
+        }
+
         Position shouldContainRookPosition = new Position(position.getRow(), direction > 0 ? 7 : 0);
         Field shouldContainRook = board.getField(shouldContainRookPosition);
         if (shouldContainRook.isFree()) {
