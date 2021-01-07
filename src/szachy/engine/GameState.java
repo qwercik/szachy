@@ -1,5 +1,6 @@
 package szachy.engine;
 
+import javafx.geometry.Pos;
 import szachy.pieces.*;
 
 import java.util.LinkedList;
@@ -57,18 +58,12 @@ public class GameState {
         this.currentPlayer = this.currentPlayer.opposite();
     }
 
-    public boolean verifyMoveForCheck(Move move) {
-        return true;
-        /*
-        ChessPiece piece = this.board.getField(move.getStart()).getPiece();
-
-        piece.makeMove(move);
+    public boolean verifyMoveToDestinationForCheck(ChessPiece piece, Position destination) {
+        Move move = piece.makeMove(destination);
         boolean result = !this.isCheck();
-        piece.makeMove(move.getReversedMove());
-        this.board.getField(move.getEnd()).setPiece(move.getEndPiece());
+        piece.takeBackMove(move);
 
         return result;
-        */
     }
 
     public boolean isCheck() {
@@ -78,21 +73,13 @@ public class GameState {
     }
 
     public boolean isAttacked(Position position, Player attacker) {
-        return false;/*
-        for (Field[] row : this.board.getAllFields()) {
-            for (Field field : row) {
-                ChessPiece piece = field.getPiece();
-                if (piece != null && piece.getOwner() == attacker) {
-                    for (Move move : piece.getAllPossibleMoves()) {
-                        if (move.getEnd().equals(position)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;*/
+        return
+                Knight.isAttacking(this, position, attacker) ||
+                King.isAttacking(this, position, attacker) ||
+                Pawn.isAttacking(this, position, attacker) ||
+                Bishop.isAttacking(this, position, attacker) ||
+                Rook.isAttacking(this, position, attacker) ||
+                Queen.isAttacking(this, position, attacker);
     }
 
 

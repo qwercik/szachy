@@ -57,4 +57,37 @@ public class Rook extends ChessPiece {
 
         return destinations;
     }
+
+    public static boolean isAttacking(GameState state, Position position, Player attacker) {
+        for (int diffY : new int[]{-1, 0, 1}) {
+            for (int diffX : new int[]{-1, 0, 1}) {
+                if (diffX == 0 ^ diffY == 0) {
+                    int currentDiffX = diffX;
+                    int currentDiffY = diffY;
+
+                    while (true) {
+                        Position otherPosition = position.transform(currentDiffY, currentDiffX);
+                        if (otherPosition == null) {
+                            break;
+                        }
+
+                        Field otherField = state.getBoard().getField(otherPosition);
+                        if (otherField.isOccupied()) {
+                            ChessPiece piece = otherField.getPiece();
+                            if (piece.getType() == Type.ROOK && piece.getOwner() == attacker) {
+                                return true;
+                            }
+
+                            break;
+                        }
+
+                        currentDiffX += diffX;
+                        currentDiffY += diffY;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

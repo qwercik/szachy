@@ -177,4 +177,27 @@ public class King extends ChessPiece {
 
         return true;
     }
+
+    public static boolean isAttacking(GameState state, Position position, Player attacker) {
+        for (int diffY : new int[]{-1, 0, 1}) {
+            for (int diffX : new int[]{-1, 0, 1}) {
+                if (diffX != 0 || diffY != 0) {
+                    Position otherPosition = position.transform(diffY, diffX);
+                    if (otherPosition == null) {
+                        continue;
+                    }
+
+                    Field otherField = state.getBoard().getField(otherPosition);
+                    if (otherField.isOccupied()) {
+                        ChessPiece piece = otherField.getPiece();
+                        if (piece.getType() == Type.KING && piece.getOwner() == attacker) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

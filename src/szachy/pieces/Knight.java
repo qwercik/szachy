@@ -48,4 +48,27 @@ public class Knight extends ChessPiece {
 
         return destinations;
     }
+
+    public static boolean isAttacking(GameState state, Position position, Player attacker) {
+        for (int diffY : new int[]{-2, -1, 1, 2}) {
+            for (int diffX : new int[]{-2, -1, 1, 2}) {
+                if (Math.abs(diffX) != Math.abs(diffY)) {
+                    Position otherPosition = position.transform(diffY, diffX);
+                    if (otherPosition == null) {
+                        continue;
+                    }
+
+                    Field otherField = state.getBoard().getField(otherPosition);
+                    if (otherField.isOccupied()) {
+                        ChessPiece piece = otherField.getPiece();
+                        if (piece.getType() == Type.KNIGHT && piece.getOwner() == attacker) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

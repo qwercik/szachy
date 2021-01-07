@@ -34,10 +34,6 @@ public abstract class ChessPiece {
         return this.owner;
     }
 
-    public boolean isOwnedByCurrentPlayer() {
-        return this.getOwner() == this.getField().getBoard().getGameState().getCurrentPlayer();
-    }
-
     protected String getIconsDirectory() {
         return String.format("%s/%s", "/assets/pieces", this.owner == Player.WHITE ? "white" : "black");
     }
@@ -75,11 +71,9 @@ public abstract class ChessPiece {
 
         return this.getAllPossibleDestinationsBackend()
                 .stream()
-                //.filter(state::verifyMoveForCheck)
+                .filter(destination -> state.verifyMoveToDestinationForCheck(this, destination))
                 .collect(Collectors.toCollection(LinkedList::new));
     }
-
-
 
 
     // Default implementations of make move/take back

@@ -163,4 +163,22 @@ public class Pawn extends ChessPiece {
             }
         }
     }
+
+    public static boolean isAttacking(GameState state, Position position, Player attacker) {
+        int diff = attacker == Player.WHITE ? 1 : -1;
+        for (int diffX : new int[] {-1, 1}) {
+            Position otherPosition = position.transform(diff, diffX);
+            if (otherPosition != null) {
+                Field otherField = state.getBoard().getField(otherPosition);
+                if (otherField.isOccupied()) {
+                    ChessPiece otherPiece = otherField.getPiece();
+                    if (otherPiece.getOwner() == attacker && otherPiece.getType() == Type.PAWN) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }
