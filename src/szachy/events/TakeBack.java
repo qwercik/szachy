@@ -17,6 +17,8 @@ public class TakeBack extends Event {
         if (state.canTakeBack()) {
             state.takeBackMove();
             panel.update(state);
+            state.getBoard().reset();
+            state.update();
         }
     }
 
